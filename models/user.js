@@ -9,6 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         password: DataTypes.STRING,
         email: DataTypes.STRING,
         phoneNumber: DataTypes.STRING,
+        photoUrl: DataTypes.TEXT,
         wishList: DataTypes.TEXT,
         notes: DataTypes.TEXT
    });
