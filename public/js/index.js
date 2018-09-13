@@ -1,4 +1,5 @@
 // Get references to page elements
+
 var $exampleText = $("#example-text");
 var $exampleDescription = $("#example-description");
 var $submitBtn = $("#submit");
@@ -97,3 +98,32 @@ var handleDeleteBtnClick = function() {
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
+
+
+
+$(function(){
+  var $newPost = $(".new-post");
+
+
+
+  var postItem = function(event){
+    event.preventDefault();
+   var newProduct ={
+     prodcutName: $("#product-name").val().trim(),
+     categoryName: $("#category").val(),
+     price: $("#price").val().trim(),
+     quantity: $("#quantity").val().trim(),
+     description: $("#description").val().trim()
+   };
+  //  ajax call to post item 
+  console.log(newProduct)
+  
+  };
+  
+
+  // Event listeners 
+  $newPost.on("submit", postItem);
+});
+
+
+
