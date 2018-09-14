@@ -1,4 +1,5 @@
 // Get references to page elements
+
 var $exampleText = $("#example-text");
 var $exampleDescription = $("#example-description");
 var $submitBtn = $("#submit");
@@ -98,22 +99,8 @@ var handleDeleteBtnClick = function() {
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
 
-//Facebook SDK related Methods
-//Login
-$("#login").on("click", function() {
-  FB.login(
-    function(response) {
-      console.log(response);
-  }, {scope: 'public_profile,email'});
-})
 
-//Logout
-$("#logout").on("click", function(){
-  FB.logout(function(response) {
-    console.log("You have been logged out")
-  })
-})
-
+//This method is called once the facebbok login dialog is completed
 function handleLogin() {
   var FBID = "";
   FB.api("/me?fields=id,first_name,last_name,picture{url},email", function(
@@ -136,3 +123,31 @@ function handleLogin() {
   
 
 }
+
+
+$(function(){
+  var $newPost = $(".new-post");
+
+
+
+  var postItem = function(event){
+    event.preventDefault();
+   var newProduct ={
+     prodcutName: $("#product-name").val().trim(),
+     categoryName: $("#category").val(),
+     price: $("#price").val().trim(),
+     quantity: $("#quantity").val().trim(),
+     description: $("#description").val().trim()
+   };
+  //  ajax call to post item 
+  console.log(newProduct)
+  
+  };
+  
+
+  // Event listeners 
+  $newPost.on("submit", postItem);
+});
+
+
+

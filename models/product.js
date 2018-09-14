@@ -4,10 +4,13 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        desription: DataTypes.TEXT,
+        description: DataTypes.TEXT,
         price: DataTypes.DOUBLE,
         quantity: DataTypes.INTEGER,
-        sold: DataTypes.BOOLEAN,
+        sold: {
+            type: DataTypes.BOOLEAN,
+            defaultvalue: false
+        },
         notes: DataTypes.TEXT
     });
 
