@@ -97,3 +97,42 @@ var handleDeleteBtnClick = function() {
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
+
+//Facebook SDK related Methods
+//Login
+$("#login").on("click", function() {
+  FB.login(
+    function(response) {
+      console.log(response);
+  }, {scope: 'public_profile,email'});
+})
+
+//Logout
+$("#logout").on("click", function(){
+  FB.logout(function(response) {
+    console.log("You have been logged out")
+  })
+})
+
+function handleLogin() {
+  var FBID = "";
+  FB.api("/me?fields=id,first_name,last_name,picture{url},email", function(
+    response
+  ) {
+    //Once response comes in, the data is then sent to the server for user creation if user doesn't exist.
+    console.log(response)
+    $.ajax({
+      url: "/login",
+      method: "POST",
+      data: response
+    }).then(function(response) {
+      if (response===true) {
+        console.log("login successful");
+      } else{
+        console.log("something went wrong");
+      }
+    });
+  })
+  
+
+}
