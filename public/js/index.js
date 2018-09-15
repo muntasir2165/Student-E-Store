@@ -2,7 +2,7 @@
 //This method is called once the facebbok login dialog is completed
 function handleLogin() {
   var FBID = "";
-  FB.api("/me?fields=id,first_name,last_name,picture{url},email", function(
+  FB.api("/me?fields=id,first_name,last_name,picture{url},email", function (
     response
   ) {
     //Once response comes in, the data is then sent to the server for user creation if user doesn't exist.
@@ -79,13 +79,13 @@ $(function () {
     var options = []
     x.forEach(element => {
       options.push(
-    `<option value=${element.id}>${element.name}</option>`)
+        `<option value=${element.id}>${element.name}</option>`)
       // console.log(element.name)
       // console.log(element.id)
     });
     // can append the list of categories anywhere we need it
     $("#category").append(options)
-   
+
   }
   // initializing get categories function 
   getCategories();
@@ -93,7 +93,30 @@ $(function () {
 
 
   // Event listeners 
+
+
   $newPost.on("submit", postItem);
+
+  //wishlist button on click event
+
+  $(".wishlistButton").on("click", function (event) {
+
+    // event.preventDefault();
+    // console.log("works");
+    var buttonId = {
+      productId: $(this).attr("data-id"),
+      userId: 2
+    }
+
+
+    $.ajax({
+      type: "PUT",
+      url: "/wishlist/",
+      data: buttonId,
+
+    });
+
+  })
 });
 
 

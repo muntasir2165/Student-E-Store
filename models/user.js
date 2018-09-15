@@ -12,6 +12,9 @@ module.exports = function(sequelize, DataTypes) {
         phoneNumber: DataTypes.STRING,
         photoUrl: DataTypes.TEXT,
         wishList: DataTypes.TEXT,
+        // {
+           // type : SEQUELIZE.ARRAY(SEQUELIZE.INTEGER). defaultValue: null
+       // }
         purchaseList: DataTypes.TEXT,
         notes: DataTypes.TEXT
    });
