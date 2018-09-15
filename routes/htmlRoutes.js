@@ -24,6 +24,7 @@ module.exports = function (app) {
 
     
    db.Product.findAll({}).then(function (dbProduct) {
+    
     res.render("feed", {
       product: dbProduct
     });
