@@ -39,4 +39,32 @@ module.exports = function(app) {
       res.json(dbExample);
     });
   });
+
+  app.get("/api/feed", function(req, res){
+    
+    db.Product.findAll({}).then(function(dbProduct){
+    res.json(dbProduct)
+  
+    })
+  });
+
+  app.get("/api/categorylist", function(req, res){
+    db.Category.findAll({}).then(function(dbCategory){
+    res.json(dbCategory)
+    });
+  })
+
+
+  app.post("/post", function (req, res) {
+    console.log(req.body)
+    db.Product.create({
+      name: req.body.productName,
+      description: req.body.description,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      CategoryId: req.body.categoryId,
+      UserId: 2
+    })
+
+  })
 };
