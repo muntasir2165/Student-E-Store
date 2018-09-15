@@ -21,29 +21,16 @@ module.exports = function (app) {
   });
 
   app.get("/feed", function (req, res) {
+    db.Product.findAll({}).then(function (dbProduct) {
 
-    
-   db.Product.findAll({}).then(function (dbProduct) {
-    
-    res.render("feed", {
-      product: dbProduct
+      res.render("feed", {
+        product: dbProduct
+      });
     });
-    });
-  
-  
 
+  });
 
-
-    // var category = db.category.findAll({}).then(function(dbCategory){
-    //  return dbCategory
-    // });
-
-    // renderPage(products);
-    // renderPage(dbProduct)
-
-    // res.render("feed", {
-    //   product:productData
-    // });
+  app.get("/feed/:categoryid", function(req,res){
 
   });
 

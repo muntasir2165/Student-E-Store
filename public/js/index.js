@@ -109,6 +109,7 @@ $(function () {
 
   // PAGE ELEMENTS
   var $newPost = $(".new-post");
+  var $categoryItem = $(".category-item")
 
 
   // FUNCTION TO POST NEW ITEM 
@@ -131,8 +132,9 @@ $(function () {
       location.reload();
     })
 
-
   };
+  // event listener to post item 
+  $newPost.on("submit", postItem);
 
   // FUNCTION TO GET CATEGORIES 
   var categories = [];
@@ -147,23 +149,28 @@ $(function () {
   };
   function displayCategory(x) {
     var options = []
+    var navOptions = []
     x.forEach(element => {
       options.push(
-    `<option value=${element.id}>${element.name}</option>`)
+        `<option value=${element.id}>${element.name}</option>`);
+        navOptions.push(`<a class="dropdown-item category-dropdown" name="category" href="#" data-val="${element.id}">${element.name}</a>`)
       // console.log(element.name)
       // console.log(element.id)
     });
     // can append the list of categories anywhere we need it
     $("#category").append(options)
-   
-  }
+    $categoryItem.append(navOptions);
+
+  };
   // initializing get categories function 
   getCategories();
 
+  $categoryItem.on("click", ".category-dropdown", function(event){
+    event.preventDefault();
+   
+    console.log($(this).attr("data-val"))
+  })
 
-
-  // Event listeners 
-  $newPost.on("submit", postItem);
 });
 
 
