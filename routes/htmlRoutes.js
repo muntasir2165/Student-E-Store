@@ -11,28 +11,21 @@ module.exports = function (app) {
     });
   });
 
-  // Load example page and pass in an example by id
-  app.get("/example/:id", function (req, res) {
-    db.Example.findOne({ where: { id: req.params.id } }).then(function (dbExample) {
-      res.render("example", {
-        example: dbExample
+  app.get("/profile", function(req, res) {
+    db.Example.findAll({}).then(function(dbExamples) {
+      res.render("profile", {
+        msg: "Welcome!",
+        examples: dbExamples
       });
     });
   });
 
-  app.get("/feed", function (req, res) {
-
-    
-   db.Product.findAll({}).then(function (dbProduct) {
-    res.render("feed", {
-      product: dbProduct
+  app.get("/feed", function(req, res) {
+    db.Product.findAll({}).then(function(dbProduct) {
+      res.render("feed", {
+        product: dbProduct
+      });
     });
-    });
-  
-  
-
-
-
     // var category = db.category.findAll({}).then(function(dbCategory){
     //  return dbCategory
     // });
@@ -43,17 +36,10 @@ module.exports = function (app) {
     // res.render("feed", {
     //   product:productData
     // });
-
   });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function (req, res) {
+  app.get("*", function(req, res) {
     res.render("404");
   });
-
-
-
-
 };
-
-
