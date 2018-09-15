@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
         // {
            // type : SEQUELIZE.ARRAY(SEQUELIZE.INTEGER). defaultValue: null
        // }
+        purchaseList: DataTypes.TEXT,
         notes: DataTypes.TEXT
    });
 
