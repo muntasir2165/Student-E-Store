@@ -1,31 +1,42 @@
 var db = require("../models");
+var auth = require("../utility/facebook");
 
-module.exports = function (app) {
+
+module.exports = function(app) {
   // Load index page
   app.get("/", function (req, res) {
-    db.Example.findAll({}).then(function (dbExamples) {
-      res.render("index", {
-        msg: "Welcome!",
-        examples: dbExamples
-      });
+    res.render("index")
+  });
+
+  app.get("/profile/:token", function(req, res) {
+    auth(req.params.token, function(response) {
+      if (response.is_valid === true) {
+        db.Example.findAll({}).then(function(dbExamples) {
+          res.render("profile", {
+            msg: "Welcome!",
+            examples: dbExamples
+          });
+        });
+      } else {
+        res.render("index");
+      }
     });
   });
 
-  app.get("/profile", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.render("profile", {
-        msg: "Welcome!",
-        examples: dbExamples
-      });
+  app.get("/feed/:token", function(req, res) {
+    auth(req.params.token, function(response) {
+      if (response.is_valid === true) {
+        db.Product.findAll({}).then(function(dbProduct) {
+          res.render("feed", {
+            product: dbProduct,
+            authToken: req.params.token
+          });
+        });
+      } else {
+        res.render("index");
+      }
     });
-  });
 
-  app.get("/feed", function(req, res) {
-    db.Product.findAll({}).then(function(dbProduct) {
-      res.render("feed", {
-        product: dbProduct
-      });
-    });
     // var category = db.category.findAll({}).then(function(dbCategory){
     //  return dbCategory
     // });
