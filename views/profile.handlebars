@@ -55,11 +55,12 @@
                     </div> -->
                     <div class="card-body">
                             <div class="profile__avatar">
-                                    <img src={{photoUrl}} alt="profile picture">
+                                    <img src={{userData.photoUrl}} alt="profile picture">
                                   </div>
                       
-                     <strong>Name: </strong> <span>{{firstName}} {{lastName}}</span><br>
-
+                     <strong>Name: </strong> <span>{{userData.firstName}} {{userData.lastName}}</span><br>
+                     <strong>Email: </strong> <span>{{userData.email}}</span><br>
+                     <strong>Number: </strong> <span>{{userData.phoneNumber}}</span><br>
                     </div>
                     <div class="card-footer">
                         <div class="row" style="text-align: center">
