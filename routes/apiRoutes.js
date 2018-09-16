@@ -62,7 +62,7 @@ module.exports = function(app) {
           plain:true
         }))
         res.json(true);
-      })
+      });
   });
 
   // Delete an example by id
