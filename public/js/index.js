@@ -6,7 +6,6 @@ function handleLogin() {
     response
   ) {
     //Once response comes in, the data is then sent to the server for user creation if user doesn't exist.
-    console.log(response)
     $.ajax({
       url: "/login",
       method: "POST",
@@ -23,20 +22,22 @@ function handleLogin() {
 }
 
 function fetchFeedPage() {
-  window.location.replace("/feed");
+  FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      var token = response.authResponse.accessToken;
+      sessionStorage.setItem("FBToken", token);
+      window.location.replace(`/feed/${token}`);
+    }
+  });
 }
 
 function getFBID() {
-  FB.getAuthResponse(function(response) {
-    return response.userID;
-  })
+  FB.getLoginStatus(function(response) {return(response.authResponse.userID)})
 }
 
 // START OF MY JS FOR FRONT END ---ALL THE ABOVE IS JUST EXAMPLES
 
 $(function () {
-
-
   // PAGE ELEMENTS
   var $newPost = $(".new-post");
 
