@@ -48,25 +48,24 @@ module.exports = function(app) {
           plain:true
         }))
         res.json(true);
-      })
+      });
   });
 
   app.get("/api/feed", function(req, res){
     db.Product.findAll({}).then(function(dbProduct){
-    res.json(dbProduct)
-  
+    res.json(dbProduct); 
     })
   });
 
 
   app.get("/api/categorylist", function(req, res){
     db.Category.findAll({}).then(function(dbCategory){
-    res.json(dbCategory)
+    res.json(dbCategory);
     });
   })
 
   app.post("/post", function (req, res) {
-    console.log(req.body)
+    console.log(req.body);
     db.Product.create({
       name: req.body.productName,
       description: req.body.description,
@@ -75,6 +74,48 @@ module.exports = function(app) {
       CategoryId: req.body.categoryId,
       UserId: 2
     })
-
   })
+  
+  app.post("/message", function (req, res) {
+    db.Message.create({
+      messageText: req.body.messageText,
+      UserId: req.body.UserId,
+      otherUserId: req.body.otherUserId,
+      productId: req.body.productId 
+    }).then(function(dbMessageFromUser) {
+      res.status(200).end();
+      // res.json({ id: result.insertId });
+    });
+  });
+
+  app.post("/message/new", function (req, res) {
+    db.Message.findAll({
+      where: {
+        UserId: req.body.UserId,
+        otherUserId: req.body.otherUserId,
+        productId: req.body.productId
+        },
+      order: [
+            ["createdAt", "ASC"]
+        ]
+      }
+    ).then(function(dbMessageFromUser) {
+        db.Message.findAll({
+          where: {
+            UserId: req.body.otherUserId,
+            otherUserId: req.body.UserId,
+            productId: req.body.productId
+            },
+            order: [
+                ["createdAt", "ASC"]
+            ]
+          }
+        ).then(function(dbMessageFromOtherUser) {
+          // console.log(dbMessageFromUser.length);
+          // console.log(dbMessageFromOtherUser.length);
+          res.json({totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length});
+        });
+    });
+  });
+
 };
