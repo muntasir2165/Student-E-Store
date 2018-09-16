@@ -11,10 +11,11 @@ module.exports = function(app) {
   app.get("/profile/:token", function(req, res) {
     auth(req.params.token, function(response) {
       if (response.is_valid === true) {
-        db.Example.findAll({}).then(function(dbExamples) {
+        db.User.findOne({
+          where: {userId: response.user_id}
+        }).then(function(userData) {
           res.render("profile", {
-            msg: "Welcome!",
-            examples: dbExamples
+            userData: userData
           });
         });
       } else {
