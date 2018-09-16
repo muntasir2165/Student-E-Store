@@ -12,6 +12,7 @@ module.exports = function(sequelize, DataTypes) {
         phoneNumber: DataTypes.STRING,
         photoUrl: DataTypes.TEXT,
         wishList: DataTypes.TEXT,
+        purchaseList: DataTypes.TEXT,
         notes: DataTypes.TEXT
    });
 

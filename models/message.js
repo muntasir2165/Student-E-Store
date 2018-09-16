@@ -8,11 +8,11 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        productId: {
+            type: DataTypes.INTEGER,
+        	allowNull: false
+        },
         notes: DataTypes.TEXT
-        // ,
-        // productId: {DataTypes.INTEGER,
-        // 	allowNull: false
-        // }
     });
 
     Message.associate = function(models) {

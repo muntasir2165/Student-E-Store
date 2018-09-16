@@ -15,6 +15,24 @@ module.exports = function(app) {
     });
   });
 
+  // Create a new example
+  app.post("/login", function(req, res) {
+    //If user doesn't already exist, create them using facebook data sent from client
+    db.User.findOrCreate({
+      where: { userId: req.body.id },
+      defaults: {
+        firstName: req.body.first_name,
+        lastName: req.body.last_name,
+        email: req.body.email,
+        photoUrl: req.body['picture[data][url]']
+      }}).spread((user,created) => {
+        console.log(user.get({
+          plain:true
+        }))
+        res.json(true);
+      })
+  });
+
   // Delete an example by id
   app.delete("/api/examples/:id", function(req, res) {
     db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
@@ -48,5 +66,7 @@ module.exports = function(app) {
       UserId: 2
     })
 
-  })
+  });
+
+ 
 };
