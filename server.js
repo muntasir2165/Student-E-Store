@@ -27,6 +27,8 @@ app.set("view engine", "handlebars");
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
+require('./utility/facebook.js');
+
 var syncOptions = { force: false };
 
 // If running a test, set syncOptions.force to true
@@ -46,4 +48,4 @@ db.sequelize.sync(syncOptions).then(function() {
   });
 });
 
-module.exports = app;
+module.exports = [app, exphbs];
