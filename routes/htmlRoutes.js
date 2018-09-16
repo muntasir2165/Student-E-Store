@@ -41,13 +41,51 @@ module.exports = function(app) {
     //  return dbCategory
     // });
 
-    // renderPage(products);
-    // renderPage(dbProduct)
+  //HTML route for wishlist.handlebars page
+  app.get("/wishlist/:userId", function (req, res) {
+    console.log("##########");
+    var userId = req.params.userId;
+    db.User.findOne({
+      where: {id: userId}
+      }
+    ).then(function(dbUser) {
+      var wishList = JSON.parse(dbUser.wishList);
+      db.Product.findAll({
+        where: {
+          id: {
+            [db.Sequelize.Op.in]: wishList
+          }
+        }
+      }).then(function (dbWishlist) {
+        
+        console.log(JSON.stringify(dbWishlist));
+        console.log("##########");
+        res.render("wishlist", {
+          wishlist: dbWishlist
+        });
+      });
+    });
+  });
+
+
+
+
+
+  // var category = db.category.findAll({}).then(function(dbCategory){
+  //  return dbCategory
+  // });
+
+  // renderPage(products);
+  // renderPage(dbProduct)
+
+  // res.render("feed", {
+  //   product:productData
+  // });
 
     // res.render("feed", {
     //   product:productData
     // });
-  });
+  
 
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {

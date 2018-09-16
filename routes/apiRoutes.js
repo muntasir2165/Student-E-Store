@@ -3,6 +3,36 @@ var auth = require("../utility/facebook");
 
 module.exports = function(app) {
 
+//UPDATE users 'wishlist column'
+
+  app.put("/wishlist/", function(req,res){
+    console.log(req.body);
+  
+    db.User.findOne({
+      where: {
+        id: req.body.userId
+      }
+    })
+      .then(function(dbPost) {
+        console.log(JSON.stringify(dbPost));
+        var wishList = JSON.parse(dbPost.wishList);
+
+        wishList.push(parseInt(req.body.productId));
+        console.log(wishList);
+  
+        db.User.update({
+          wishList: JSON.stringify(wishList)
+        },{
+          where: {
+            id: req.body.userId
+          }
+        }).then(function(results){
+          console.log(results);
+        })
+      });
+
+  })
+
   // Create a new example
   app.post("/login", function(req, res) {
     //If user doesn't already exist, create them using facebook data sent from client
@@ -27,6 +57,7 @@ module.exports = function(app) {
   
     })
   });
+
 
   app.get("/api/categorylist", function(req, res){
     db.Category.findAll({}).then(function(dbCategory){

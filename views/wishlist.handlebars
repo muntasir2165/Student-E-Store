@@ -41,7 +41,7 @@
                     <a class="nav-link" href="#">My Listings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile/{{authToken}}">Profile</a>
+                    <a class="nav-link" href="#">Profile</a>
                 </li>
             </ul>
         </div>
@@ -54,7 +54,7 @@
     <div class="row">
         <div class="col-12">
             <h3>
-                Product Available for sale
+                Your WishList
             </h3>
         </div>
 
@@ -71,7 +71,7 @@
     <div class="row">
 
         <div class="col-8">
-            {{#each product}}
+            {{#each wishlist}}
             <div class="card product">
 
                 <div class="card-body">
@@ -80,10 +80,10 @@
                             <img src="https://via.placeholder.com/140x100" alt="">
                         </div>
                         <div class="col-7">
-                            <strong> {{this.name}} </strong> <br> {{this.description}}
+                            <strong> {{name}} </strong> <br> {{description}}
                         </div>
                         <div class="col-2">
-                            ${{this.price}} <br> Stock: {{this.quantity}}
+                            ${{price}} <br> Stock: {{quantity}}
                             <br>
                             
                             <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}">Wishlist
@@ -102,59 +102,3 @@
 
             {{/each}}
         </div>
-
-        {{!-- New post --}}
-        <div class="col-4">
-            <div class="card">
-                <div class="card-header"> <strong>New Post</strong> </div>
-                <div class="card-body">
-                    <form class="new-post">
-                        <div class="form-group">
-                            <label for="product-name">Product Name</label>
-                            <input type="text" class="form-control" id="product-name" placeholder="Enter product name">
-                        </div>
-                        <select class="custom-select" id="category">
-                            <option selected>Category</option>
-                           
-                         
-                        </select>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="price">Price</label>
-                                    <input type="number" class="form-control" id="price" placeholder="Price">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity" placeholder="Quantity">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea name="" id="description" cols="30" rows="10" placeholder="enter description here" class="form-control"></textarea>
-
-                        </div>
-
-
-                        <input type="file" class="form-control-file" id="post-pic">
-                        <button type="submit" class="btn btn-primary">Post</button>
-                        <div class="test">
-
-                        </div>
-                     
-                        
-                    </form>
-
-                    <!--name, category, price, description, quantity   -->
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-</div>
