@@ -5,7 +5,7 @@ var auth = require("../utility/facebook");
 module.exports = function(app) {
   // Load index page
   app.get("/", function (req, res) {
-    res.render("index")
+    res.render("index");
   });
 
   app.get("/profile/:token", function(req, res) {
@@ -36,6 +36,7 @@ module.exports = function(app) {
         res.render("index");
       }
     });
+  });
 
     // var category = db.category.findAll({}).then(function(dbCategory){
     //  return dbCategory
@@ -43,7 +44,6 @@ module.exports = function(app) {
 
   //HTML route for wishlist.handlebars page
   app.get("/wishlist/:userId", function (req, res) {
-    console.log("##########");
     var userId = req.params.userId;
     db.User.findOne({
       where: {id: userId}
@@ -57,18 +57,63 @@ module.exports = function(app) {
           }
         }
       }).then(function (dbWishlist) {
-        
-        console.log(JSON.stringify(dbWishlist));
-        console.log("##########");
-        res.render("wishlist", {
-          wishlist: dbWishlist
+          console.log(JSON.stringify(dbWishlist));
+          res.render("wishlist", {
+            wishlist: dbWishlist
+          });
         });
-      });
     });
   });
 
 
-
+  app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
+    db.Message.findAll({
+      where: {
+        UserId: req.params.UserId,
+        otherUserId: req.params.otherUserId,
+        productId: req.params.productId
+        },
+        order: [
+            ["createdAt", "ASC"]
+        ]
+      }
+    ).then(function(dbMessageFromUser) {
+        db.Message.findAll({
+          where: {
+            otherUserId: req.params.UserId,
+            UserId: req.params.otherUserId,
+            productId: req.params.productId
+            },
+            order: [
+                ["createdAt", "ASC"]
+            ]
+          }
+        ).then(function(dbMessageFromOtherUser) {
+          db.Product.findOne({
+            where: {
+              id: req.params.productId
+            }
+          }).then(function (dbProduct) {
+            // console.log("#####################################");
+            // console.log(JSON.stringify(dbMessageFromUser));
+            // console.log(dbMessageFromUser.length);
+            // console.log("#####################################");
+            // console.log(dbMessageFromUser.length + dbMessageFromOtherUser.length);
+            // console.log("#####################################");
+            // console.log(JSON.stringify(dbMessageFromOtherUser));
+            // console.log(dbMessageFromOtherUser.length);
+            // console.log("#####################################");
+            // console.log(JSON.stringify(dbProduct));
+              res.render("message", {
+                messageFromUser: dbMessageFromUser,
+                dbMessageFromOtherUser: dbMessageFromOtherUser,
+                product: dbProduct,
+                totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length
+              });
+            });
+        });
+    });
+  });
 
 
   // var category = db.category.findAll({}).then(function(dbCategory){
