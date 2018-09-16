@@ -32,14 +32,6 @@ module.exports = function(app) {
 
   })
 
-  // app.get("/api/examples", function(req, res) {
-  //   db.Example.findAll({}).then(function(dbExamples) {
-  //     res.json(dbExamples);
-  //   });
-  // });
-
-
-
 
   app.post("/api/examples", function(req, res) {
     db.Example.create(req.body).then(function(dbExample) {
@@ -80,7 +72,6 @@ module.exports = function(app) {
     })
   });
 
- 
 
   app.get("/api/categorylist", function(req, res){
     db.Category.findAll({}).then(function(dbCategory){

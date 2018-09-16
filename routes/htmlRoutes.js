@@ -11,8 +11,8 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/profile", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
+  app.get("/profile", function (req, res) {
+    db.Example.findAll({}).then(function (dbExamples) {
       res.render("profile", {
         msg: "Welcome!",
         examples: dbExamples
@@ -30,14 +30,14 @@ module.exports = function (app) {
     });
   });
 
-  //HTML route for wishlist.handlebars page
+  //HTML Wishlist Route
   app.get("/wishlist/:userId", function (req, res) {
     console.log("##########");
     var userId = req.params.userId;
     db.User.findOne({
-      where: {id: userId}
-      }
-    ).then(function(dbUser) {
+      where: { id: userId }
+    }
+    ).then(function (dbUser) {
       var wishList = JSON.parse(dbUser.wishList);
       db.Product.findAll({
         where: {
@@ -46,7 +46,7 @@ module.exports = function (app) {
           }
         }
       }).then(function (dbWishlist) {
-        
+
         console.log(JSON.stringify(dbWishlist));
         console.log("##########");
         res.render("wishlist", {
@@ -56,28 +56,72 @@ module.exports = function (app) {
     });
   });
 
+  //HTML My Listings Route
+  app.get("/listings/:userId", function (req, res) {
+    db.Product.findAll({
+      where: { userId: req.params.userId },
+    }).then(function (dbListings) {
+      res.render("listings", {
+        listings: dbListings
+      });
+    });
+  });
+
+  //To get the category name
+  app.get("/listings/:userId", function (req, res) {
+    var userId = req.params.userId;
+    db.User.findOne({
+      where: { id: userId }
+    }
+    ).then(function(dbUser){
+      db.Product.findAll({
+        where: {categoryId: CategoryId}
+      }).then(function(dbCategory){
+        db.Category.findOne({
+          where: { categoryId: id }
+        }).then(function(categoryName){
+          res.render("listings", {
+            categoryName: name
+        })
+      })
+    })
+  })
+})
+  // db.Product.findAll({
+  //       where: { categoryId: CategoryId }
+  //     }).then(function (dbCategory) {
+  //       // console.log(dbCategory);
+  //       db.Category.findAll({
+  //       }).then(function (categoryName) {
+  //         })
+  //       });
+  //     });
+  //   });
 
 
 
 
-  // var category = db.category.findAll({}).then(function(dbCategory){
-  //  return dbCategory
-  // });
 
-  // renderPage(products);
-  // renderPage(dbProduct)
 
-  // res.render("feed", {
-  //   product:productData
-  // });
+
+    // var category = db.category.findAll({}).then(function(dbCategory){
+    //  return dbCategory
+    // });
+
+    // renderPage(products);
+    // renderPage(dbProduct)
 
     // res.render("feed", {
     //   product:productData
     // });
-  
 
-  // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
-    res.render("404");
-  });
-};
+    // res.render("feed", {
+    //   product:productData
+    // });
+
+
+    // Render 404 page for any unmatched routes
+    app.get("*", function (req, res) {
+      res.render("404");
+    });
+  };
