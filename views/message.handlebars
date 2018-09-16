@@ -1,0 +1,159 @@
+    <header>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Logo Here</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarNavDropdown" class="navbar-collapse collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Feed <span class="sr-only">(current)</span></a>
+                    </li>
+                    <form class="form-inline my-2 my-lg-0" id="search-products">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown category-dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Category
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#" data-val="">Books</a>
+                            <a class="dropdown-item" href="#" data-val="">Category 2</a>
+                            <a class="dropdown-item" href="#" data-val="">Category 3</a>
+                            <a class="dropdown-item" href="#" data-val="">Category 4</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Listings</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+    </header>
+
+    <div class="container text-center" style="margin-top:20px">
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2 offset-md-right-2">
+                {{product.name}}
+            </div>
+        </div>
+
+        <div class="row" id="message-listing" data-total-messages="{{totalNumberOfMessages}}">
+
+            <div class="col-md-6" id="user-messages">
+                {{#each messageFromUser}}
+                    <div>
+                        <p>{{messageText}}</p>
+                        <p>{{createdAt}}</p>
+                    </div>
+                {{/each}}
+            </div>
+
+            <div class="col-md-6" id="other-user-messages">
+                {{#each dbMessageFromOtherUser}}
+                    <div>
+                        <p>{{messageText}}</p>
+                        <p>{{createdAt}}</p>
+                    </div>
+                {{/each}}
+            </div>
+
+        </div>
+
+        <div class="row m-5">
+            <div class="col-md-4 offset-md-4 offset-md-right-4">
+                <form class="create-form">
+                    <div class="form-group">
+                        <textarea class="form-control" id="user-new-message" name="user-new-message" rows="3" placeholder="Type your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submit-user-new-message">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+            // // Make sure we wait to attach our handlers until the DOM is fully loaded.
+        $(document).ready(function() {
+            newMessageFromUser();
+            checkForNewMessages();
+        });
+
+        function newMessageFromUser() {
+            $("#submit-user-new-message").on("click", function(event) {
+                event.preventDefault();
+                if ($("#user-new-message").val()) {
+                    var messageText = $("#user-new-message").val().trim();
+                    addNewMessageFromUserToDb(
+                        {
+                            "messageText": messageText,
+                            UserId: window.location.href.split("/")[4],
+                            otherUserId: window.location.href.split("/")[5],
+                            productId: window.location.href.split("/")[6]
+                        }
+                    )   
+                } else {
+                    alert("ERROR: Please type in a message before submitting the form.");
+                }
+            });
+        }
+
+        function addNewMessageFromUserToDb(newMessage) {
+            console.log(JSON.stringify(newMessage));
+            $.ajax({
+                url: "/message",
+                type: "POST",
+                data: newMessage,
+                success: function(result) {
+                    console.log("Posted user's message to database and alerted the other user.");
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Sorry, invalid request." + "\n" + "textStatus: " + textStatus + " errorThrown: " + errorThrown);
+                }
+            });
+        }
+
+        function checkForNewMessages() {
+            $.ajax({
+                url: "/message/new",
+                type: "POST",
+                data: {
+                    UserId: window.location.href.split("/")[4],
+                    otherUserId: window.location.href.split("/")[5],
+                    productId: window.location.href.split("/")[6] 
+                },
+                success: function(result) {
+                    var displayedTotalNumberOfMessages = $("#message-listing").attr("data-total-messages");
+                    // console.log("current listing of messages: " + displayedTotalNumberOfMessages);
+                    // console.log("Total number of messages in the database: " + JSON.stringify(result));
+                    // sample result object value:
+                    // {"totalNumberOfMessages":12}
+                    if (parseInt(displayedTotalNumberOfMessages) !== parseInt(result.totalNumberOfMessages)) {
+                        // Reload the page to get the updated listing of messages
+                        location.reload();
+                    } else {
+                        checkForNewMessages();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  console.log("Sorry, invalid request." + "\n" + "textStatus: " + textStatus + " errorThrown: " + errorThrown);
+                }
+            });
+        }
+    </script>

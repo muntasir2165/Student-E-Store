@@ -1,33 +1,3 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-    <!-- Font Awesome icon library -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-        crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="../public/styles/styles.css">
-
-    <title>Project 2</title>
-</head>
-
-<body>
     <header>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -45,8 +15,6 @@
                         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
-
-
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown category-dropdown">
@@ -68,7 +36,7 @@
                         <a class="nav-link" href="#">My Listings</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Profile</a>
+                        <a class="nav-link" href="/profile">Profile</a>
                     </li>
                 </ul>
             </div>
@@ -87,11 +55,12 @@
                     </div> -->
                     <div class="card-body">
                             <div class="profile__avatar">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="...">
+                                    <img src={{userData.photoUrl}} alt="profile picture">
                                   </div>
                       
-                     <strong>Name: </strong> <span> blah blah</span><br>
-
+                     <strong>Name: </strong> <span>{{userData.firstName}} {{userData.lastName}}</span><br>
+                     <strong>Email: </strong> <span>{{userData.email}}</span><br>
+                     <strong>Number: </strong> <span>{{userData.phoneNumber}}</span><br>
                     </div>
                     <div class="card-footer">
                         <div class="row" style="text-align: center">
@@ -120,9 +89,3 @@
 
 
     </div>
-
-
-
-</body>
-
-</html>

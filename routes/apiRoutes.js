@@ -1,63 +1,71 @@
 var db = require("../models");
+var auth = require("../utility/facebook");
 
 module.exports = function(app) {
-  // Get all examples
-  app.get("/api/examples", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.json(dbExamples);
-    });
-  });
 
-  // Create a new example
-  app.post("/api/examples", function(req, res) {
-    db.Example.create(req.body).then(function(dbExample) {
-      res.json(dbExample);
-    });
-  });
+//UPDATE users 'wishlist column'
+
+  app.put("/wishlist/", function(req,res){
+    console.log(req.body);
+  
+    db.User.findOne({
+      where: {
+        id: req.body.userId
+      }
+    })
+      .then(function(dbPost) {
+        console.log(JSON.stringify(dbPost));
+        var wishList = JSON.parse(dbPost.wishList);
+
+        wishList.push(parseInt(req.body.productId));
+        console.log(wishList);
+  
+        db.User.update({
+          wishList: JSON.stringify(wishList)
+        },{
+          where: {
+            id: req.body.userId
+          }
+        }).then(function(results){
+          console.log(results);
+        })
+      });
+
+  })
 
   // Create a new example
   app.post("/login", function(req, res) {
-    console.log(req.body);
     //If user doesn't already exist, create them using facebook data sent from client
     db.User.findOrCreate({
       where: { userId: req.body.id },
       defaults: {
         firstName: req.body.first_name,
         lastName: req.body.last_name,
-        email: req.body.email
+        email: req.body.email,
+        photoUrl: req.body['picture[data][url]']
       }}).spread((user,created) => {
         console.log(user.get({
           plain:true
         }))
-        console.log(created);
-        //Add code to send user data to profile page if created is true, else redirect to feed page
-      })
-  });
-
-  // Delete an example by id
-  app.delete("/api/examples/:id", function(req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
-      res.json(dbExample);
-    });
+        res.json(true);
+      });
   });
 
   app.get("/api/feed", function(req, res){
-    
     db.Product.findAll({}).then(function(dbProduct){
-    res.json(dbProduct)
-  
+    res.json(dbProduct); 
     })
   });
 
+
   app.get("/api/categorylist", function(req, res){
     db.Category.findAll({}).then(function(dbCategory){
-    res.json(dbCategory)
+    res.json(dbCategory);
     });
   })
 
-
   app.post("/post", function (req, res) {
-    console.log(req.body)
+    console.log(req.body);
     db.Product.create({
       name: req.body.productName,
       description: req.body.description,
@@ -66,6 +74,48 @@ module.exports = function(app) {
       CategoryId: req.body.categoryId,
       UserId: 2
     })
-
   })
+  
+  app.post("/message", function (req, res) {
+    db.Message.create({
+      messageText: req.body.messageText,
+      UserId: req.body.UserId,
+      otherUserId: req.body.otherUserId,
+      productId: req.body.productId 
+    }).then(function(dbMessageFromUser) {
+      res.status(200).end();
+      // res.json({ id: result.insertId });
+    });
+  });
+
+  app.post("/message/new", function (req, res) {
+    db.Message.findAll({
+      where: {
+        UserId: req.body.UserId,
+        otherUserId: req.body.otherUserId,
+        productId: req.body.productId
+        },
+      order: [
+            ["createdAt", "ASC"]
+        ]
+      }
+    ).then(function(dbMessageFromUser) {
+        db.Message.findAll({
+          where: {
+            UserId: req.body.otherUserId,
+            otherUserId: req.body.UserId,
+            productId: req.body.productId
+            },
+            order: [
+                ["createdAt", "ASC"]
+            ]
+          }
+        ).then(function(dbMessageFromOtherUser) {
+          // console.log(dbMessageFromUser.length);
+          // console.log(dbMessageFromOtherUser.length);
+          res.json({totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length});
+        });
+    });
+  });
+
 };
