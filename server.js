@@ -27,7 +27,7 @@ app.set("view engine", "handlebars");
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
-require('./utility/facebook.js');
+require("./utility/facebook.js");
 
 var syncOptions = { force: false };
 
