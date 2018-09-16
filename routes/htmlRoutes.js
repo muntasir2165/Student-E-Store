@@ -66,7 +66,6 @@ module.exports = function(app) {
     });
   });
 
-
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
     db.Message.findAll({
       where: {
@@ -95,16 +94,6 @@ module.exports = function(app) {
               id: req.params.productId
             }
           }).then(function (dbProduct) {
-            // console.log("#####################################");
-            // console.log(JSON.stringify(dbMessageFromUser));
-            // console.log(dbMessageFromUser.length);
-            // console.log("#####################################");
-            // console.log(dbMessageFromUser.length + dbMessageFromOtherUser.length);
-            // console.log("#####################################");
-            // console.log(JSON.stringify(dbMessageFromOtherUser));
-            // console.log(dbMessageFromOtherUser.length);
-            // console.log("#####################################");
-            // console.log(JSON.stringify(dbProduct));
               res.render("message", {
                 messageFromUser: dbMessageFromUser,
                 dbMessageFromOtherUser: dbMessageFromOtherUser,
@@ -116,6 +105,21 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/searchProduct/:userId/:searchProduct", function (req, res) {
+    var searchProduct = req.params.searchProduct;
+    db.Product.findAll({
+      where: {
+          name: {
+              $like: "%" + searchProduct + "%"
+          }
+      }
+    }).then(function(dbProduct) {
+      console.log(JSON.stringify(dbProduct));
+      res.render("searchProduct", {
+        product: dbProduct
+      });
+    });
+  });
 
   // var category = db.category.findAll({}).then(function(dbCategory){
   //  return dbCategory
