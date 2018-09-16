@@ -36,6 +36,7 @@ module.exports = function(app) {
         res.render("index");
       }
     });
+  });
 
     // var category = db.category.findAll({}).then(function(dbCategory){
     //  return dbCategory
