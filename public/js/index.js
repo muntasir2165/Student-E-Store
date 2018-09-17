@@ -1,3 +1,19 @@
+$(document).ready(function() {
+    searchProduct();
+});
+
+function searchProduct() {
+    $("#search-product-submit-button").on("click", function(event) {
+        event.preventDefault();
+        if ($("#search-product").val()) {
+            var searchProduct = $("#search-product").val().trim(); 
+            // searchProductInDb(searchProduct);
+            window.location.replace("/searchProduct/1/" + searchProduct);
+        } else {
+            alert("ERROR: Please type in a message before submitting the form.");
+        }
+    });
+}
 
 //This method is called once the facebbok login dialog is completed
 function handleLogin() {
@@ -6,14 +22,14 @@ function handleLogin() {
     response
   ) {
     //Once response comes in, the data is then sent to the server for user creation if user doesn't exist.
-    console.log(response)
     $.ajax({
       url: "/login",
       method: "POST",
       data: response
-    }).then(function (response) {
-      if (response === true) {
+    }).then(function(response) {
+      if (response.auth === true) {
         console.log("login successful");
+        document.cookie = `userId=${response.userId}`; //Here we store the user's id from the database
         fetchFeedPage();
       } else {
         console.log("something went wrong");
@@ -23,21 +39,22 @@ function handleLogin() {
 }
 
 function fetchFeedPage() {
-  window.location.replace("/feed");
+  FB.getLoginStatus(function(response) {
+    if (response.status === 'connected') {
+      var token = response.authResponse.accessToken;
+      document.cookie = `FBToken=${token}`; //Here we store the FB access token as a cookie
+      window.location.replace("/feed");
+    }
+  });
 }
 
 function getFBID() {
-  FB.getLoginStatus(function (response) {
-    console.log(response.authResponse.userID)
-    userFbidId = response.authResponse.userID
-  })
+  FB.getLoginStatus(function(response) {return(response.authResponse.userID)})
 }
 
 // START OF MY JS FOR FRONT END ---ALL THE ABOVE IS JUST EXAMPLES
 
 $(function () {
-
-
   // PAGE ELEMENTS
   var $newPost = $(".new-post");
   var $categoryItem = $(".category-item")
@@ -108,11 +125,36 @@ $(function () {
     $.get("/feed/"+categoryId)
   })
 
-  $(".feed-page").on("click", function(event){
-    event.preventDefault();
-    $.get("/feed")
-  })
+  // $(".feed-page").on("click", function(event){
+  //   // event.preventDefault();
+  //   // $.get("/feed")
+  // })
 
+  // Event listeners 
+
+
+  $newPost.on("submit", postItem);
+
+  //wishlist button on click event
+
+  $(".wishlistButton").on("click", function (event) {
+
+    // event.preventDefault();
+    // console.log("works");
+    var buttonId = {
+      productId: $(this).attr("data-id"),
+      userId: 2
+    }
+
+
+    $.ajax({
+      type: "PUT",
+      url: "/wishlist/",
+      data: buttonId,
+
+    });
+
+  })
 });
 
 

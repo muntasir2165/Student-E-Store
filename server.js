@@ -2,8 +2,8 @@ require("dotenv").config();
 var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-
 var db = require("./models");
+var cookieParser = require("cookie-parser"); //This package will allow us to read the cookie that is sent from the client in a GET request.
 
 var app = express();
 // var PORT = process.env.PORT || 3000;
@@ -13,6 +13,7 @@ var PORT = process.env.PORT || 8080;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use(cookieParser());
 
 // Handlebars
 app.engine(
@@ -26,6 +27,8 @@ app.set("view engine", "handlebars");
 // Routes
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
+
+require("./utility/facebook.js");
 
 var syncOptions = { force: false };
 
@@ -46,4 +49,4 @@ db.sequelize.sync(syncOptions).then(function() {
   });
 });
 
-module.exports = app;
+module.exports = [app, exphbs];
