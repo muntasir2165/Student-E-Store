@@ -86,7 +86,7 @@ $(function () {
     x.forEach(element => {
       options.push(
         `<option value=${element.id}>${element.name}</option>`);
-      navOptions.push(`<a class="dropdown-item category-dropdown" name="category" href="#" data-val="${element.id}">${element.name}</a>`)
+      navOptions.push(`<a class="dropdown-item category-dropdown" name="category" href="/category/${element.id}" data-val="${element.id}">${element.name}</a>`)
       // console.log(element.name)
       // console.log(element.id)
     });
@@ -101,7 +101,6 @@ $(function () {
 
   // select and display category list 
   $categoryItem.on("click", ".category-dropdown", function (event) {
-    event.preventDefault();
 
     console.log($(this).attr("data-val"))
     var categoryId = $(this).attr("data-val")

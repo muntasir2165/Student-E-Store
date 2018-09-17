@@ -30,9 +30,9 @@ module.exports = function (app) {
   });
 
 
-  app.get("/feed/:categoryid", function(req,res){
+  app.get("/category/:categoryid", function(req,res){
     // console.log(req.params.categoryid)
-    db.Product.findOne({
+    db.Product.findAll({
       where:{
         CategoryId:req.params.categoryid
       }
