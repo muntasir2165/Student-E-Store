@@ -1,3 +1,19 @@
+$(document).ready(function() {
+    searchProduct();
+});
+
+function searchProduct() {
+    $("#search-product-submit-button").on("click", function(event) {
+        event.preventDefault();
+        if ($("#search-product").val()) {
+            var searchProduct = $("#search-product").val().trim(); 
+            // searchProductInDb(searchProduct);
+            window.location.replace("/searchProduct/1/" + searchProduct);
+        } else {
+            alert("ERROR: Please type in a message before submitting the form.");
+        }
+    });
+}
 
 //This method is called once the facebbok login dialog is completed
 function handleLogin() {
