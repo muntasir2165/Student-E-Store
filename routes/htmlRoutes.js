@@ -109,7 +109,11 @@ module.exports = function(app) {
                 messageFromUser: dbMessageFromUser,
                 dbMessageFromOtherUser: dbMessageFromOtherUser,
                 product: dbProduct,
-                totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length
+                totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length,
+                bothUser: {
+                  messageFromUser: dbMessageFromUser,
+                dbMessageFromOtherUser: dbMessageFromOtherUser
+                }
               });
             });
         });
