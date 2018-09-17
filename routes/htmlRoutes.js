@@ -37,6 +37,25 @@ module.exports = function(app) {
         res.render("index");
       }
     });
+
+  });
+
+
+  app.get("/category/:categoryid", function(req,res){
+    // console.log(req.params.categoryid)
+    db.Product.findAll({
+      where:{
+        CategoryId:req.params.categoryid
+      }
+    }).then(function(dbProduct){
+      console.log(JSON.stringify(dbProduct))
+     res.render("category", {
+       product: dbProduct
+     })
+     
+    })
+
+ 
   });
 
     // var category = db.category.findAll({}).then(function(dbCategory){
