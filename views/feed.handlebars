@@ -32,7 +32,7 @@
                     </div>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link" href="#">Wishlist</a>
+                    <a class="nav-link" href="/wishlist/{{>Wishlist</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Messages</a>
@@ -53,8 +53,8 @@
 <div class="container" style="margin-top:20px">
     <div class="row">
         <div class="col-12">
-            <h3>
-                Product Available for sale
+            <h3 class="pageTitle">
+                Available Products
             </h3>
         </div>
 
@@ -79,16 +79,17 @@
                         <div class="col-3">
                             <img src="https://via.placeholder.com/140x100" alt="">
                         </div>
-                        <div class="col-7">
+                        <div class="col-6">
                             <strong> {{this.name}} </strong> <br> {{this.description}}
                         </div>
-                        <div class="col-2">
-                            ${{this.price}} <br> Stock: {{this.quantity}}
+                        <div class="col-3 priceQuantity">
+                            Price: ${{this.price}} <br> Quantity: {{this.quantity}}
                             <br>
+                        
+                            <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-star feedStar"></i>
+                            </button><br>
                             
-                            <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}">Wishlist
-                            </button>
-                            <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}">Message
+                            <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-comment-alt"></i>
                             </button>
 
                         </div>
@@ -105,8 +106,8 @@
 
         {{!-- New post --}}
         <div class="col-4">
-            <div class="card">
-                <div class="card-header"> <strong>New Post</strong> </div>
+            <div class="card postCard">
+                <div class="card-header newPost"> <strong>New Post</strong> </div>
                 <div class="card-body">
                     <form class="new-post">
                         <div class="form-group">
@@ -140,7 +141,7 @@
 
 
                         <input type="file" class="form-control-file" id="post-pic">
-                        <button type="submit" class="btn btn-primary">Post</button>
+                        <button type="submit" class="btn btn-primary feedPost">Post</button>
                         <div class="test">
 
                         </div>

@@ -60,43 +60,19 @@ module.exports = function (app) {
   app.get("/listings/:userId", function (req, res) {
     db.Product.findAll({
       where: { userId: req.params.userId },
+      include:[db.Category]
     }).then(function (dbListings) {
+      // console.log(dbListings);
+      console.log(JSON.stringify(dbListings));
       res.render("listings", {
         listings: dbListings
+        
       });
     });
   });
 
-  //To get the category name
-  app.get("/listings/:userId", function (req, res) {
-    var userId = req.params.userId;
-    db.User.findOne({
-      where: { id: userId }
-    }
-    ).then(function(dbUser){
-      db.Product.findAll({
-        where: {categoryId: CategoryId}
-      }).then(function(dbCategory){
-        db.Category.findOne({
-          where: { categoryId: id }
-        }).then(function(categoryName){
-          res.render("listings", {
-            categoryName: name
-        })
-      })
-    })
-  })
-})
-  // db.Product.findAll({
-  //       where: { categoryId: CategoryId }
-  //     }).then(function (dbCategory) {
-  //       // console.log(dbCategory);
-  //       db.Category.findAll({
-  //       }).then(function (categoryName) {
-  //         })
-  //       });
-  //     });
-  //   });
+
+ 
 
 
 

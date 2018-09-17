@@ -97,12 +97,10 @@ $(function () {
 
   $newPost.on("submit", postItem);
 
-  //wishlist button on click event
+  //Wishlist Button
 
   $(".wishlistButton").on("click", function (event) {
 
-    // event.preventDefault();
-    // console.log("works");
     var buttonId = {
       productId: $(this).attr("data-id"),
       userId: 2
@@ -111,7 +109,7 @@ $(function () {
 
     $.ajax({
       type: "PUT",
-      url: "/wishlist/",
+      url: `/wishlist/${document.cookie.userId}`,
       data: buttonId,
 
     });
