@@ -47,7 +47,10 @@ module.exports = function(app) {
         console.log(user.get({
           plain:true
         }))
-        res.json(true);
+        res.json({
+          auth:true,
+          userId: user.id
+        })
       });
   });
 

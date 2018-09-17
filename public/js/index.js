@@ -27,8 +27,9 @@ function handleLogin() {
       method: "POST",
       data: response
     }).then(function(response) {
-      if (response === true) {
+      if (response.auth === true) {
         console.log("login successful");
+        document.cookie = `userId=${response.userId}`; //Here we store the user's id from the database
         fetchFeedPage();
       } else {
         console.log("something went wrong");
@@ -41,8 +42,8 @@ function fetchFeedPage() {
   FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
       var token = response.authResponse.accessToken;
-      sessionStorage.setItem("FBToken", token);
-      window.location.replace(`/feed/${token}`);
+      document.cookie = `FBToken=${token}`; //Here we store the FB access token as a cookie
+      window.location.replace("/feed");
     }
   });
 }

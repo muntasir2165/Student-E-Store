@@ -8,8 +8,8 @@ module.exports = function(app) {
     res.render("index");
   });
 
-  app.get("/profile/:token", function(req, res) {
-    auth(req.params.token, function(response) {
+  app.get("/profile", function(req, res) {
+    auth(req.cookies.FBToken, function(response) {
       if (response.is_valid === true) {
         db.User.findOne({
           where: {userId: response.user_id}
@@ -24,8 +24,8 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/feed/:token", function(req, res) {
-    auth(req.params.token, function(response) {
+  app.get("/feed", function(req, res) {
+    auth(req.cookies.FBToken, function(response) {
       if (response.is_valid === true) {
         db.Product.findAll({}).then(function(dbProduct) {
           res.render("feed", {
