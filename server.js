@@ -4,7 +4,6 @@ var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var db = require("./models");
 var cookieParser = require("cookie-parser"); //This package will allow us to read the cookie that is sent from the client in a GET request.
-var fileUpload = require('express-fileupload');
 
 var app = express();
 // var PORT = process.env.PORT || 3000;
@@ -15,7 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(cookieParser());
-app.use(fileUpload());
 
 // Handlebars
 app.engine(
@@ -32,9 +30,7 @@ require("./routes/htmlRoutes")(app);
 
 require("./utility/facebook.js");
 
-// var syncOptions = { force: false };
-var syncOptions = { force: true };
-
+var syncOptions = { force: false };
 
 // If running a test, set syncOptions.force to true
 // clearing the `testdb`

@@ -69,20 +69,17 @@ module.exports = function(app) {
     });
   })
 
-  // app.post("/post", function (req, res) {
-  //   console.log(req.body);
-  //   console.log("#########");
-  //   console.log(req.files.productPic);
-  //   console.log("#########");
-  //   db.Product.create({
-  //     name: req.body.productName,
-  //     description: req.body.description,
-  //     price: req.body.price,
-  //     quantity: req.body.quantity,
-  //     CategoryId: req.body.categoryId,
-  //     UserId: 2
-  //   });
-  // });
+  app.post("/post", function (req, res) {
+    console.log(req.body);
+    db.Product.create({
+      name: req.body.productName,
+      description: req.body.description,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      CategoryId: req.body.categoryId,
+      UserId: 2
+    })
+  })
   
   app.post("/message", function (req, res) {
     db.Message.create({
@@ -95,6 +92,7 @@ module.exports = function(app) {
       // res.json({ id: result.insertId });
     });
   });
+ 
 
   app.post("/message/new", function (req, res) {
     db.Message.findAll({

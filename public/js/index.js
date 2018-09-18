@@ -56,32 +56,35 @@ function getFBID() {
 
 $(function () {
   // PAGE ELEMENTS
-  // var $newPost = $(".new-post");
+  var $newPost = $(".new-post");
+  var $categoryItem = $(".category-item")
+  var userFbidId 
 
 
-  // // FUNCTION TO POST NEW ITEM 
-  // var postItem = function (event) {
-  //   event.preventDefault();
-  //   var newProduct = {
-  //     productName: $("#product-name").val().trim(),
-  //     categoryId: $("#category").val(),
-  //     price: $("#price").val().trim(),
-  //     quantity: $("#quantity").val().trim(),
-  //     description: $("#description").val().trim(),
-      
-  //   };
-  //   //  ajax call to post item 
-  //   console.log(newProduct)
-  //   $.ajax("/post", {
-  //     type: "POST",
-  //     data: newProduct
-  //   }).then(function () {
-  //     console.log("created")
-  //     location.reload();
-  //   })
+  // FUNCTION TO POST NEW ITEM 
+  var postItem = function (event) {
+    event.preventDefault();
+  
+    var newProduct = {
+      productName: $("#product-name").val().trim(),
+      categoryId: $("#category").val(),
+      price: $("#price").val().trim(),
+      quantity: $("#quantity").val().trim(),
+      description: $("#description").val().trim()
+    };
+    //  ajax call to post item 
+    console.log(newProduct)
+    $.ajax("/post", {
+      type: "POST",
+      data: newProduct
+    }).then(function () {
+      console.log("created")
+      location.reload();
+    })
 
-
-  // };
+  };
+  // event listener to post item 
+  $newPost.on("submit", postItem);
 
   // FUNCTION TO GET CATEGORIES 
   var categories = [];
@@ -96,47 +99,75 @@ $(function () {
   };
   function displayCategory(x) {
     var options = []
+    var navOptions = []
     x.forEach(element => {
       options.push(
-        `<option value=${element.id}>${element.name}</option>`)
+        `<option value=${element.id}>${element.name}</option>`);
+      navOptions.push(`<a class="dropdown-item category-dropdown" name="category" href="/category/${element.id}" data-val="${element.id}">${element.name}</a>`)
       // console.log(element.name)
       // console.log(element.id)
     });
     // can append the list of categories anywhere we need it
     $("#category").append(options)
+    $categoryItem.append(navOptions);
 
-  }
+  };
   // initializing get categories function 
   getCategories();
+  // getFBID();
 
+  // select and display category list 
+  $categoryItem.on("click", ".category-dropdown", function (event) {
 
+    console.log($(this).attr("data-val"))
+    var categoryId = $(this).attr("data-val")
+
+    $.get("/feed/"+categoryId)
+  })
+
+  // $(".feed-page").on("click", function(event){
+  //   // event.preventDefault();
+  //   // $.get("/feed")
+  // })
 
   // Event listeners 
 
 
-  // $newPost.on("submit", postItem);
+  $newPost.on("submit", postItem);
 
-  //wishlist button on click event
+  //Wishlist Button
 
   $(".wishlistButton").on("click", function (event) {
 
-    // event.preventDefault();
-    // console.log("works");
     var buttonId = {
       productId: $(this).attr("data-id"),
       userId: 2
     }
-
+  
 
     $.ajax({
       type: "PUT",
       url: "/wishlist/",
       data: buttonId,
 
-    });
+    }).then(function(results){
+      console.log("buttonId:" + results);
+      addRemoveToWishlist();
 
   })
 });
+});
+
+function addRemoveToWishlist() {
+  $(document).on("click", ".wishlistButton", function(){
+    if ($(".wishlistButton").css("background-color") === "rgb(0, 123, 255)") {
+      $(".wishlistButton").css("background-color", "blue");
+    } else {
+      $(".wishlistButton").css("background-color", "lightseagreen");
+    }
+  });
+}
+
 
 
 
