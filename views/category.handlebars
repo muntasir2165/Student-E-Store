@@ -11,10 +11,10 @@
         <li>
           <a href="/profile">My Profile</a>
         </li>
-        <li class="active">
+        <li>
           <a href="/feed">Feed</a>
         </li>
-        <li >
+        <li class="active">
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
           <ul class="collapse list-unstyled category-item" id="homeSubmenu">
             <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
@@ -81,32 +81,45 @@
     </div>
 </div>
 
-
-
-<div class="container text-center" style="margin-top:20px">
-
+<div class="container" style="margin-top:20px">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-12">
+            <h3>
+                Product Available for sale 
+            </h3>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-4">
+
+        </div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-8">
             {{#each product}}
             <div class="card product">
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-3">
                             <img src="https://via.placeholder.com/140x100" alt="">
                         </div>
-                        <div class="col-6">
+                        <div class="col-7">
                             <strong> {{this.name}} </strong> <br> {{this.description}}
                         </div>
-                        <div class="col-3 priceQuantity">
-                            Price: ${{this.price}} <br> Quantity: {{this.quantity}}
+                        <div class="col-2">
+                            ${{this.price}} <br> Stock: {{this.quantity}}
                             <br>
-
-                            <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i
-                                    class="far fa-star feedStar"></i>
+                           <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-star feedStar"></i>
                             </button><br>
-
-                            <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i
-                                    class="far fa-comment-alt"></i>
+                            
+                            <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-comment-alt"></i>
                             </button>
 
                         </div>
@@ -115,12 +128,14 @@
 
 
                 </div>
+
             </div>
 
+            {{/each}}
         </div>
 
-        {{/each}}
-         <div class="col-4">
+       {{!-- New post --}}
+        <div class="col-4">
             <div class="card postCard">
                 <div class="card-header newPost"> <strong>New Post</strong> </div>
                 <div class="card-body">
@@ -174,11 +189,8 @@
 
 
         </div>
+
     </div>
-    
-</div>
-
-
 </div>
       {{!-- End content here  --}}
     </div>
