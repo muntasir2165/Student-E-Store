@@ -1,6 +1,44 @@
-   
+    <div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <a class="navbar-brand feed-page" href="/feed"> <h3>E-Store</h3> </a>
+      </div>
+      {{!-- feed, category, wishlist, messages, my listings, profile--}}
+      <ul class="list-unstyled components">
+        {{!--
+        <p>Dummy Heading</p> --}}
+        <li>
+          <a href="/profile">My Profile</a>
+        </li>
+        <li>
+          <a href="/feed">Feed</a>
+        </li>
+        <li >
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
+          <ul class="collapse list-unstyled category-item" id="homeSubmenu">
+            <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+             
+            </div>
 
-    <div class="container text-center" style="margin-top:20px">
+          
+          </ul>
+        </li>
+
+        <li>
+          <a href="/wishlist">Wishlist</a>
+        </li>
+      
+      
+        <li>
+          <a href="/listings">My Listings</a>
+        </li>
+      </ul>
+
+    </nav>
+    <div id="content">
+      {{!-- Pu in main content here  --}}
+     <div class="container text-center" style="margin-top:20px">
 
         <div class="row">
             <div class="col-md-6 offset-md-2 offset-md-right-2">
@@ -51,6 +89,8 @@
                 </form>
             </div>
         </div>
+    </div>
+    
 
     {{!-- <div class="container">
         <div class="row">
@@ -243,3 +283,10 @@
             });
         }
     </script>
+
+
+      {{!-- End content here  --}}
+    </div>
+  </div>
+
+   

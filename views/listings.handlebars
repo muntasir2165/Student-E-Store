@@ -1,4 +1,44 @@
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <a class="navbar-brand feed-page" href="/feed"> <h3>E-Store</h3> </a>
+        </div>
+        {{!-- feed, category, wishlist, messages, my listings, profile--}}
+        <ul class="list-unstyled components">
+            {{!--
+            <p>Dummy Heading</p> --}}
+            <li>
+                <a href="/profile">My Profile</a>
+            </li>
+            <li>
+                <a href="/feed">Feed</a>
+            </li>
+            <li >
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
+                <ul class="collapse list-unstyled category-item" id="homeSubmenu">
+                    <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
 
+                    </div>
+
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="/wishlist">Wishlist</a>
+            </li>
+
+
+            <li class="active">
+                <a href="/listings">My Listings</a>
+            </li>
+        </ul>
+
+    </nav>
+    <div id="content">
+        {{!-- Pu in main content here --}}
+        
 <div class="container" style="margin-top:20px">
     <div class="row">
         <div class="col-12">
@@ -29,16 +69,14 @@
                             <img src="https://via.placeholder.com/140x100" alt="">
                         </div>
                         <div class="col-7">
-                            <p><strong> {{name}} </strong></p> 
-                            <p class="productDescription">{{description}}</p> 
+                            <p><strong> {{name}} </strong></p>
+                            <p class="productDescription">{{description}}</p>
                             <p class="productCategory"> Category:{{Category.name}}</p>
                         </div>
                         <div class="col-3 priceQuantity">
                             ${{price}} <br> Stock: {{quantity}}
-                            <br>
-                     
-                            {{!-- <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}">Message --}}
-                            {{!-- </button> --}}
+                            <br> {{!-- <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}"
+                                data-id="{{this.id}}">Message --}} {{!-- </button> --}}
 
                         </div>
 
@@ -51,3 +89,9 @@
 
             {{/each}}
         </div>
+    </div>
+</div>
+         {{!-- End content here --}}
+    </div>
+</div>
+
