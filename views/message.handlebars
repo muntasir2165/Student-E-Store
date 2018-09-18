@@ -11,6 +11,7 @@
         <div class="row" id="message-listing" data-total-messages="{{totalNumberOfMessages}}">
 
             <div class="col-md-6" id="user-messages">
+                <p> <h4>Your Messages</h4></p>
                  {{#each messageFromUser}}
                 <div class="card product">
                    
@@ -24,6 +25,8 @@
             </div>
 
             <div class="col-md-6" id="other-user-messages">
+               
+                <p><h4>Message from user</h4></p>
                 {{#each dbMessageFromOtherUser}}
                      <div class="card product">
                    
@@ -48,23 +51,6 @@
                 </form>
             </div>
         </div>
-{{!-- test --}}
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                {{#each bothUser}}
-                <div class="card">
-                    <div class="card-body">
-                          <p>{{bothUser.messageText}}</p>
-                        <p>{{bothUser.createdAt}}</p>
-                    </div>
-                </div>
-                {{/each}}
-
-            </div>
-        </div>
-    </div>
 
     {{!-- <div class="container">
         <div class="row">

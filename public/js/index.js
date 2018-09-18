@@ -137,29 +137,29 @@ $(function () {
   $newPost.on("submit", postItem);
 
   //Wishlist Button
-//   function cookie(cname){
-//     var name = cname + "=";
-//     var decodedCookie = decodeURIComponent(document.cookie);
-//     var ca = decodedCookie.split(';');
-//   }
-//   function getCookie(cname) {
-//     var name = cname + “=”;
-//     var decodedCookie = decodeURIComponent(document.cookie);
-//     var ca = decodedCookie.split(‘;’);
-//     for(var i = 0; i <ca.length; i++) {
-//         var c = ca[i];
-//         while (c.charAt(0) == ' ’) {
-//             c = c.substring(1);
-//         };
-//         if (c.indexOf(name) == 0) {
-//             return c.substring(name.length, c.length);
-//         };
-//     }
-//     return “”;
-//  }
+  //   function cookie(cname){
+  //     var name = cname + "=";
+  //     var decodedCookie = decodeURIComponent(document.cookie);
+  //     var ca = decodedCookie.split(';');
+  //   }
+  //   function getCookie(cname) {
+  //     var name = cname + “=”;
+  //     var decodedCookie = decodeURIComponent(document.cookie);
+  //     var ca = decodedCookie.split(‘;’);
+  //     for(var i = 0; i <ca.length; i++) {
+  //         var c = ca[i];
+  //         while (c.charAt(0) == ' ’) {
+  //             c = c.substring(1);
+  //         };
+  //         if (c.indexOf(name) == 0) {
+  //             return c.substring(name.length, c.length);
+  //         };
+  //     }
+  //     return “”;
+  //  }
 
   $(".wishlistButton").on("click", function (event) {
-  
+
     // $(this).css({"background-image" : "linear-gradient(to right top, #0064fa, #009fff, #00c5e9, #00df87, #a8eb12)"});
 
     var buttonId = {
@@ -194,17 +194,53 @@ $(function () {
     });
 
   });
+  function addRemoveToWishlist() {
+    $(document).on("click", ".wishlistButton", function () {
+      if ($(".wishlistButton").css("background-color") === "rgb(0, 123, 255)") {
+        $(".wishlistButton").css("background-color", "blue");
+      } else {
+        $(".wishlistButton").css("background-color", "lightseagreen");
+      }
+    });
+  }
+
+
+  // message button
+  $('.message-seller').on('click', function (event) {
+    event.preventDefault();
+
+    var userId = Cookies.get('userId')
+
+    // var messageData = {
+    //     sellerId: $(this).attr("data-seller"),
+    //     productId: $(this).attr("data-id")
+    // };
+
+    var sellerId = $(this).attr("data-seller");
+    var productId = $(this).attr("data-id");
+
+    // console.log(sellerId)
+    // console.log(productId)
+    // $.get(`/message/${userId}/${sellerId}/${productId}`)
+    $.ajax({
+      type: "GET",
+      url: "/message/" + userId + "/" + sellerId + "/" + productId,
+      data: {
+        userId: userId,
+        sellerId: sellerId
+      }
+    }).then(function (results) {
+      location.assign(`/message/${userId}/${sellerId}/${productId}`)
+      console.log(results)
+    })
+
+
+  });
+
+
 });
 
-function addRemoveToWishlist() {
-  $(document).on("click", ".wishlistButton", function () {
-    if ($(".wishlistButton").css("background-color") === "rgb(0, 123, 255)") {
-      $(".wishlistButton").css("background-color", "blue");
-    } else {
-      $(".wishlistButton").css("background-color", "lightseagreen");
-    }
-  });
-}
+
 
 
 
