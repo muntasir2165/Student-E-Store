@@ -8,8 +8,8 @@ module.exports = function(app) {
     res.render("index");
   });
 
-  app.get("/profile/:token", function(req, res) {
-    auth(req.params.token, function(response) {
+  app.get("/profile", function(req, res) {
+    auth(req.cookies.FBToken, function(response) {
       if (response.is_valid === true) {
         db.User.findOne({
           where: {userId: response.user_id}
@@ -24,8 +24,8 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/feed/:token", function(req, res) {
-    auth(req.params.token, function(response) {
+  app.get("/feed", function(req, res) {
+    auth(req.cookies.FBToken, function(response) {
       if (response.is_valid === true) {
         db.Product.findAll({}).then(function(dbProduct) {
           res.render("feed", {
@@ -37,6 +37,25 @@ module.exports = function(app) {
         res.render("index");
       }
     });
+
+  });
+
+
+  app.get("/category/:categoryid", function(req,res){
+    // console.log(req.params.categoryid)
+    db.Product.findAll({
+      where:{
+        CategoryId:req.params.categoryid
+      }
+    }).then(function(dbProduct){
+      console.log(JSON.stringify(dbProduct))
+     res.render("category", {
+       product: dbProduct
+     })
+     
+    })
+
+ 
   });
 
     // var category = db.category.findAll({}).then(function(dbCategory){
@@ -66,7 +85,6 @@ module.exports = function(app) {
     });
   });
 
-
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
     db.Message.findAll({
       where: {
@@ -95,16 +113,6 @@ module.exports = function(app) {
               id: req.params.productId
             }
           }).then(function (dbProduct) {
-            // console.log("#####################################");
-            // console.log(JSON.stringify(dbMessageFromUser));
-            // console.log(dbMessageFromUser.length);
-            // console.log("#####################################");
-            // console.log(dbMessageFromUser.length + dbMessageFromOtherUser.length);
-            // console.log("#####################################");
-            // console.log(JSON.stringify(dbMessageFromOtherUser));
-            // console.log(dbMessageFromOtherUser.length);
-            // console.log("#####################################");
-            // console.log(JSON.stringify(dbProduct));
               res.render("message", {
                 messageFromUser: dbMessageFromUser,
                 dbMessageFromOtherUser: dbMessageFromOtherUser,
@@ -120,6 +128,21 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/searchProduct/:userId/:searchProduct", function (req, res) {
+    var searchProduct = req.params.searchProduct;
+    db.Product.findAll({
+      where: {
+          name: {
+              $like: "%" + searchProduct + "%"
+          }
+      }
+    }).then(function(dbProduct) {
+      console.log(JSON.stringify(dbProduct));
+      res.render("searchProduct", {
+        product: dbProduct
+      });
+    });
+  });
 
   // var category = db.category.findAll({}).then(function(dbCategory){
   //  return dbCategory

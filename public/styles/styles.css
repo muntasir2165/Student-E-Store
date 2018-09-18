@@ -99,6 +99,7 @@
 
 .card {
   margin-top: 10px;
+  /* border: solid 1px #2F3E67; */
 }
 
 /* toggle */
@@ -161,7 +162,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #B0A8B9;
+    background: #FBF8FF;
 }
 
 
@@ -219,7 +220,8 @@ a:focus {
   left: 0;
   height: 100vh;
   z-index: 999;
-  background: #845EC2;
+  /* background: #845EC2; */
+  background: #051E43;
   color: #fff;
   transition: all 0.3s;
 }
@@ -230,12 +232,12 @@ a:focus {
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #845EC2;
+  background: #051E43;
 }
 
 #sidebar ul.components {
   padding: 20px 0;
-  border-bottom: 1px solid #47748b;
+  border-bottom: 1px solid #2F3E67;
 }
 
 #sidebar ul p {
@@ -257,7 +259,7 @@ a:focus {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
   color: #fff;
-  background: #A178DF;
+  background: #2F3E67;
 }
 
 a[data-toggle="collapse"] {
@@ -275,7 +277,7 @@ a[data-toggle="collapse"] {
 ul ul a {
   font-size: 0.9em !important;
   padding-left: 30px !important;
-  background:#845EC2 ;
+  background:#2F3E67 ;
 }
 
 ul.CTAs {

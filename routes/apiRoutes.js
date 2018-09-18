@@ -1,5 +1,7 @@
 var db = require("../models");
 var auth = require("../utility/facebook");
+var Filter = require('bad-words');
+var filter = new Filter();
 
 module.exports = function(app) {
 
@@ -47,7 +49,10 @@ module.exports = function(app) {
         console.log(user.get({
           plain:true
         }))
-        res.json(true);
+        res.json({
+          auth:true,
+          userId: user.id
+        })
       });
   });
 
@@ -78,7 +83,7 @@ module.exports = function(app) {
   
   app.post("/message", function (req, res) {
     db.Message.create({
-      messageText: req.body.messageText,
+      messageText: filter.clean(req.body.messageText),
       UserId: req.body.UserId,
       otherUserId: req.body.otherUserId,
       productId: req.body.productId 

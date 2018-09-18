@@ -1,3 +1,19 @@
+$(document).ready(function() {
+    searchProduct();
+});
+
+function searchProduct() {
+    $("#search-product-submit-button").on("click", function(event) {
+        event.preventDefault();
+        if ($("#search-product").val()) {
+            var searchProduct = $("#search-product").val().trim(); 
+            // searchProductInDb(searchProduct);
+            window.location.replace("/searchProduct/1/" + searchProduct);
+        } else {
+            alert("ERROR: Please type in a message before submitting the form.");
+        }
+    });
+}
 
 //This method is called once the facebbok login dialog is completed
 function handleLogin() {
@@ -11,8 +27,9 @@ function handleLogin() {
       method: "POST",
       data: response
     }).then(function(response) {
-      if (response === true) {
+      if (response.auth === true) {
         console.log("login successful");
+        document.cookie = `userId=${response.userId}`; //Here we store the user's id from the database
         fetchFeedPage();
       } else {
         console.log("something went wrong");
@@ -25,8 +42,8 @@ function fetchFeedPage() {
   FB.getLoginStatus(function(response) {
     if (response.status === 'connected') {
       var token = response.authResponse.accessToken;
-      sessionStorage.setItem("FBToken", token);
-      window.location.replace(`/feed/${token}`);
+      document.cookie = `FBToken=${token}`; //Here we store the FB access token as a cookie
+      window.location.replace("/feed");
     }
   });
 }
@@ -40,11 +57,14 @@ function getFBID() {
 $(function () {
   // PAGE ELEMENTS
   var $newPost = $(".new-post");
+  
+  var userFbidId 
 
 
   // FUNCTION TO POST NEW ITEM 
   var postItem = function (event) {
     event.preventDefault();
+  
     var newProduct = {
       productName: $("#product-name").val().trim(),
       categoryId: $("#category").val(),
@@ -62,8 +82,9 @@ $(function () {
       location.reload();
     })
 
-
   };
+  // event listener to post item 
+  $newPost.on("submit", postItem);
 
   // FUNCTION TO GET CATEGORIES 
   var categories = [];
@@ -76,22 +97,39 @@ $(function () {
     });
 
   };
+  var $categoryItem = $(".category-item")
   function displayCategory(x) {
     var options = []
+    var navOptions = []
     x.forEach(element => {
       options.push(
-        `<option value=${element.id}>${element.name}</option>`)
+        `<option value=${element.id}>${element.name}</option>`);
+      navOptions.push(`<li><a  name="category" href="/category/${element.id}" data-val="${element.id}">${element.name}</a></li>`)
       // console.log(element.name)
       // console.log(element.id)
     });
     // can append the list of categories anywhere we need it
-    $("#category").append(options)
+    // $("#category").append(options)
+    $categoryItem.append(navOptions);
 
-  }
+  };
   // initializing get categories function 
   getCategories();
+  // getFBID();
 
+  // select and display category list 
+  $categoryItem.on("click", ".category-dropdown", function (event) {
 
+    console.log($(this).attr("data-val"))
+    var categoryId = $(this).attr("data-val")
+
+    $.get("/feed/"+categoryId)
+  })
+
+  // $(".feed-page").on("click", function(event){
+  //   // event.preventDefault();
+  //   // $.get("/feed")
+  // })
 
   // Event listeners 
 
