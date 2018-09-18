@@ -47,58 +47,74 @@ module.exports = function (app) {
 
 
   app.get("/category/:categoryid", function (req, res) {
-    // console.log(req.params.categoryid)
-    db.Product.findAll({
-      where: {
-        CategoryId: req.params.categoryid
+    auth(req.cookies.FBToken, function (response) {
+      if (response.is_valid === true) {
+      // console.log(req.params.categoryid)
+        db.Product.findAll({
+          where: {
+            CategoryId: req.params.categoryid
+          }
+        }).then(function (dbProduct) {
+          console.log(JSON.stringify(dbProduct))
+          res.render("category", {
+            product: dbProduct
+          })
+
+        })
+      } else {
+        res.render("index");
       }
-    }).then(function (dbProduct) {
-      console.log(JSON.stringify(dbProduct))
-      res.render("category", {
-        product: dbProduct
-      })
-
     })
-
-
   });
 
   //HTML Wishlist Route
   app.get("/wishlist", function (req, res) {
-    var userId = req.cookies.userId;
-    db.User.findOne({
-      where: { id: userId }
-    }
-    ).then(function (dbUser) {
-      var wishList = JSON.parse(dbUser.wishList);
-      db.Product.findAll({
-        where: {
-          id: {
-            [db.Sequelize.Op.in]: wishList
-          }
+    auth(req.cookies.FBToken, function (response) {
+      if (response.is_valid === true) {
+        var userId = req.cookies.userId;
+        db.User.findOne({
+          where: { id: userId }
         }
-      }).then(function (dbWishlist) {
-        console.log(JSON.stringify(dbWishlist));
-        res.render("wishlist", {
-          wishlist: dbWishlist
+        ).then(function (dbUser) {
+          var wishList = JSON.parse(dbUser.wishList);
+          db.Product.findAll({
+            where: {
+              id: {
+                [db.Sequelize.Op.in]: wishList
+              }
+            }
+          }).then(function (dbWishlist) {
+            console.log(JSON.stringify(dbWishlist));
+            res.render("wishlist", {
+              wishlist: dbWishlist
+            });
+          });
         });
-      });
-    });
+      } else {
+        res.render("index");
+      }
+    })
   });
 
   //HTML My Listings Route
   app.get("/listings", function (req, res) {
-    db.Product.findAll({
-      where: { userId: req.cookies.userId },
-      include: [db.Category]
-    }).then(function (dbListings) {
-      // console.log(dbListings);
-      console.log(JSON.stringify(dbListings));
-      res.render("listings", {
-        listings: dbListings
+    auth(req.cookies.FBToken, function (response) {
+      if (response.is_valid === true) {
+        db.Product.findAll({
+          where: { userId: req.cookies.userId },
+          include: [db.Category]
+        }).then(function (dbListings) {
+          // console.log(dbListings);
+          console.log(JSON.stringify(dbListings));
+          res.render("listings", {
+            listings: dbListings
 
-      });
-    });
+          });
+        });
+      } else {
+        res.render("index");
+      }
+    })
   });
 
 
