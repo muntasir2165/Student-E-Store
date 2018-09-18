@@ -57,11 +57,14 @@ function getFBID() {
 $(function () {
   // PAGE ELEMENTS
   var $newPost = $(".new-post");
+  var $categoryItem = $(".category-item")
+  var userFbidId 
 
 
   // FUNCTION TO POST NEW ITEM 
   var postItem = function (event) {
     event.preventDefault();
+  
     var newProduct = {
       productName: $("#product-name").val().trim(),
       categoryId: $("#category").val(),
@@ -79,8 +82,9 @@ $(function () {
       location.reload();
     })
 
-
   };
+  // event listener to post item 
+  $newPost.on("submit", postItem);
 
   // FUNCTION TO GET CATEGORIES 
   var categories = [];
@@ -95,20 +99,36 @@ $(function () {
   };
   function displayCategory(x) {
     var options = []
+    var navOptions = []
     x.forEach(element => {
       options.push(
-        `<option value=${element.id}>${element.name}</option>`)
+        `<option value=${element.id}>${element.name}</option>`);
+      navOptions.push(`<a class="dropdown-item category-dropdown" name="category" href="/category/${element.id}" data-val="${element.id}">${element.name}</a>`)
       // console.log(element.name)
       // console.log(element.id)
     });
     // can append the list of categories anywhere we need it
     $("#category").append(options)
+    $categoryItem.append(navOptions);
 
-  }
+  };
   // initializing get categories function 
   getCategories();
+  // getFBID();
 
+  // select and display category list 
+  $categoryItem.on("click", ".category-dropdown", function (event) {
 
+    console.log($(this).attr("data-val"))
+    var categoryId = $(this).attr("data-val")
+
+    $.get("/feed/"+categoryId)
+  })
+
+  // $(".feed-page").on("click", function(event){
+  //   // event.preventDefault();
+  //   // $.get("/feed")
+  // })
 
   // Event listeners 
 
