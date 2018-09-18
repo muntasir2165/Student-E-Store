@@ -1,6 +1,6 @@
 var db = require("../models");
 var auth = require("../utility/facebook");
-
+var path = require("path");
 
 module.exports = function(app) {
   // Load index page
@@ -37,34 +37,19 @@ module.exports = function(app) {
         res.render("index");
       }
     });
-
   });
 
+    // var category = db.category.findAll({}).then(function(dbCategory){
+    //  return dbCategory
+    // });
 
-  app.get("/category/:categoryid", function(req,res){
-    // console.log(req.params.categoryid)
-    db.Product.findAll({
-      where:{
-        CategoryId:req.params.categoryid
-      }
-    }).then(function(dbProduct){
-      console.log(JSON.stringify(dbProduct))
-     res.render("category", {
-       product: dbProduct
-     })
-     
-    })
-
- 
-  });
-
-  //HTML Wishlist Route
+  //HTML route for wishlist.handlebars page
   app.get("/wishlist/:userId", function (req, res) {
     var userId = req.params.userId;
     db.User.findOne({
-      where: { id: userId }
-    }
-    ).then(function (dbUser) {
+      where: {id: userId}
+      }
+    ).then(function(dbUser) {
       var wishList = JSON.parse(dbUser.wishList);
       db.Product.findAll({
         where: {
@@ -80,25 +65,6 @@ module.exports = function(app) {
         });
     });
   });
-
-  //HTML My Listings Route
-  app.get("/listings/:userId", function (req, res) {
-    db.Product.findAll({
-      where: { userId: req.params.userId },
-      include:[db.Category]
-    }).then(function (dbListings) {
-      // console.log(dbListings);
-      console.log(JSON.stringify(dbListings));
-      res.render("listings", {
-        listings: dbListings
-        
-      });
-    });
-  });
-
-
- 
-
 
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
     db.Message.findAll({
@@ -155,20 +121,47 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/createProduct", function (req, res) {
+    var picUrl = "https://via.placeholder.com/140x100";
+    if (req.files && req.files.productPic) {
+        var picSaveUrl = path.join(__dirname, "../public/images/") + req.files.productPic.name;
+        picUrl = "/images/" + req.files.productPic.name;
+        req.files.productPic.mv(picSaveUrl, function(err) {
+          if (err) {
+            console.log("ERROR: Failed to save the image to the server.");
+          }
+        console.log("Product image file uploaded successfully!");
+      });
+    }
+    db.Product.create({
+      name: req.body.productName,
+      description: req.body.description,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      photoUrl: picUrl,
+      CategoryId: req.body.categoryId,
+      UserId: 2
+    }).then(function(dbProduct) {
+      console.log(JSON.stringify(dbProduct));
+      res.redirect("/feed");
+    });
+  });
 
+  // var category = db.category.findAll({}).then(function(dbCategory){
+  //  return dbCategory
+  // });
 
+  // renderPage(products);
+  // renderPage(dbProduct)
 
-
-    // var category = db.category.findAll({}).then(function(dbCategory){
-    //  return dbCategory
-    // });
-
-    // renderPage(products);
-    // renderPage(dbProduct)
+  // res.render("feed", {
+  //   product:productData
+  // });
 
     // res.render("feed", {
     //   product:productData
     // });
+  
 
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {
