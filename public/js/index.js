@@ -123,17 +123,31 @@ $(function () {
       productId: $(this).attr("data-id"),
       userId: 2
     }
-
+  
 
     $.ajax({
       type: "PUT",
-      url: `/wishlist/${document.cookie.userId}`,
+      url: "/wishlist/",
       data: buttonId,
 
-    });
+    }).then(function(results){
+      console.log("buttonId:" + results);
+      addRemoveToWishlist();
 
   })
 });
+});
+
+function addRemoveToWishlist() {
+  $(document).on("click", ".wishlistButton", function(){
+    if ($(".wishlistButton").css("background-color") === "rgb(0, 123, 255)") {
+      $(".wishlistButton").css("background-color", "blue");
+    } else {
+      $(".wishlistButton").css("background-color", "lightseagreen");
+    }
+  });
+}
+
 
 
 
