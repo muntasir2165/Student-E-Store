@@ -9,11 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     quantity: DataTypes.INTEGER,
     sold: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    photoUrl: {
-      type: DataTypes.TEXT,
-      defaultValue: "https://via.placeholder.com/140x100"
+      defaultvalue: false
     },
     notes: DataTypes.TEXT
   });
