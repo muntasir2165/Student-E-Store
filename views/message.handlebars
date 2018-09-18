@@ -3,28 +3,36 @@
     <div class="container text-center" style="margin-top:20px">
 
         <div class="row">
-            <div class="col-md-8 offset-md-2 offset-md-right-2">
-                {{product.name}}
+            <div class="col-md-6 offset-md-2 offset-md-right-2">
+               <h3>{{product.name}}</h3> 
             </div>
         </div>
 
         <div class="row" id="message-listing" data-total-messages="{{totalNumberOfMessages}}">
 
             <div class="col-md-6" id="user-messages">
-                {{#each messageFromUser}}
-                    <div>
+                 {{#each messageFromUser}}
+                <div class="card product">
+                   
+                    <div class="card-body">
                         <p>{{messageText}}</p>
                         <p>{{createdAt}}</p>
                     </div>
-                {{/each}}
+               
+                </div>
+              {{/each}}
             </div>
 
             <div class="col-md-6" id="other-user-messages">
                 {{#each dbMessageFromOtherUser}}
-                    <div>
+                     <div class="card product">
+                   
+                    <div class="card-body">
                         <p>{{messageText}}</p>
                         <p>{{createdAt}}</p>
                     </div>
+               
+                </div>
                 {{/each}}
             </div>
 
@@ -40,8 +48,145 @@
                 </form>
             </div>
         </div>
-
+{{!-- test --}}
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                {{#each bothUser}}
+                <div class="card">
+                    <div class="card-body">
+                          <p>{{bothUser.messageText}}</p>
+                        <p>{{bothUser.createdAt}}</p>
+                    </div>
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+
+    {{!-- <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="message-box">
+                    <img src="https://cdn-images-1.medium.com/max/1200/1*MccriYX-ciBniUzRKAUsAw.png" alt="Avatar" style="width:10%;">
+                    <div class="row">
+                        <div class="col-3">
+                            <p><strong>John P</strong></p>
+
+                        </div>
+                        <div class="col-6">
+                            <strong>Product Name </strong><br>
+                            <p>orem ipsum dolor sit amet, consectetur adipiscing...</p>
+                        </div>
+                        <div class="col-3">
+                            <span class="time-right">11:00</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            
+                            <div class="col-3">
+                                <p><strong>Jane P</strong></p>
+
+                            </div>
+                            <div class="col-6">
+                                <strong>Product Name </strong><br>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing...</p>
+                            </div>
+                            <div class="col-3">
+                                    <span class="time-right">11:00</span>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                
+                                <div class="col-3">
+                                    <p><strong>Jane P</strong></p>
+    
+                                </div>
+                                <div class="col-6">
+                                    <strong>Product Name </strong><br>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing...</p>
+                                </div>
+                                <div class="col-3">
+                                        <span class="time-right">11:00</span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    
+                                    <div class="col-3">
+                                        <p><strong>Jane P</strong></p>
+        
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>Product Name </strong><br>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing...</p>
+                                    </div>
+                                    <div class="col-3">
+                                            <span class="time-right">11:00</span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+
+
+            <div class="col-6">
+                <div class="card product">
+
+                    <div class="card-body">
+                        <form action="" class="form-body" id="submit-message">
+                            <div class="form-group">
+                                <textarea name="" id="" cols="30" rows="10" placeholder="respond to message" class="form-control" style="height:70px"></textarea>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+                        </form>
+
+
+                    </div>
+
+                </div>
+              
+                <div class="message-box">
+                    <img src="https://cdn-images-1.medium.com/max/1200/1*MccriYX-ciBniUzRKAUsAw.png" alt="Avatar" style="width:10%;">
+                    <p>Hello. How are you, is the product still available?</p>
+                    <span class="time-right">11:00</span>
+                </div>
+
+                <div class="message-box darker">
+                    <img src="https://cdn-images-1.medium.com/max/1200/1*MccriYX-ciBniUzRKAUsAw.png" alt="Avatar" class="right" style="width:10%;">
+                    <p>Hey, yes it is, do you have an offer?</p>
+                    <span class="time-left">11:01</span>
+                </div>
+
+                <div class="message-box">
+                    <img src="https://cdn-images-1.medium.com/max/1200/1*MccriYX-ciBniUzRKAUsAw.png" alt="Avatar" style="width:10%;">
+                    <p>How about $20</p>
+                    <span class="time-right">11:02</span>
+                </div>
+
+                <div class="message-box darker">
+                    <img src="https://cdn-images-1.medium.com/max/1200/1*MccriYX-ciBniUzRKAUsAw.png" alt="Avatar" class="right" style="width:10%;">
+                    <p>Sounds good can you pick it up today?</p>
+                    <span class="time-left">11:05</span>
+                </div>
+            </div>
+
+        </div>
+    </div> --}}
 
     <script>
             // // Make sure we wait to attach our handlers until the DOM is fully loaded.

@@ -8,7 +8,7 @@
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-  crossorigin="anonymous">
+    crossorigin="anonymous">
 
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -19,16 +19,22 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
+  <!-- jQuery Custom Scroller CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
   <script src="/js/index.js"> </script>
 
   <!-- Font Awesome icon library -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-  crossorigin="anonymous">
+    crossorigin="anonymous">
 
     <!--Google Fonts Library-->
     <link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu|Open+Sans" rel="stylesheet">
 
   <link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title" charset="utf-8">
+
+  <!-- Scrollbar Custom CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
   <title>Home Page</title>
 </head>
@@ -38,66 +44,140 @@
   <!-- The below script initializes the Facebook Javascript SDK -->
   <!-- As per the docs, this script must exist immeadiately after the body tag -->
   <script>
-    (function(d, s, id) {
+    (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
       js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=318450952247545&autoLogAppEvents=1';
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-  </script>
-<header>
+  </script> {{!--
+  <header>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand feed-page" href="/feed">Logo Here</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="navbarNavDropdown" class="navbar-collapse collapse">
-            <ul class="navbar-nav mr-auto">
-              
-                <form class="form-inline my-2 my-lg-0" id="search-product-form">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search-product" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-product-submit-button">Search</button>
-                </form>
+      <a class="navbar-brand feed-page" href="/feed">Logo Here</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+
+          <form class="form-inline my-2 my-lg-0" id="search-product-form">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search-product" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-product-submit-button">Search</button>
+          </form>
 
 
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        Category
-                    </a>
-                    <div class="dropdown-menu category-item" aria-labelledby="navbarDropdownMenuLink">
-                        {{!-- <a class="dropdown-item" href="#" data-val="">Books</a>
-                        <a class="dropdown-item" href="#" data-val="">Category 2</a>
-                        <a class="dropdown-item" href="#" data-val="">Category 3</a>
-                        <a class="dropdown-item" href="#" data-val="">Category 4</a> --}}
-                    </div>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="#">Wishlist</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Messages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Listings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
-                </li>
-            </ul>
-        </div>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Category
+            </a>
+            <div class="dropdown-menu category-item" aria-labelledby="navbarDropdownMenuLink">
+              {{!-- <a class="dropdown-item" href="#" data-val="">Books</a>
+              <a class="dropdown-item" href="#" data-val="">Category 2</a>
+              <a class="dropdown-item" href="#" data-val="">Category 3</a>
+              <a class="dropdown-item" href="#" data-val="">Category 4</a> --}}
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Wishlist</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Messages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">My Listings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
-</header>
-  {{{body}}}
+  </header> --}}
+  <div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <a class="navbar-brand feed-page" href="/feed"> <h3>E-Store</h3> </a>
+      </div>
+      {{!-- feed, category, wishlist, messages, my listings, profile--}}
+      <ul class="list-unstyled components">
+        {{!--
+        <p>Dummy Heading</p> --}}
+        <li>
+          <a href="/profile">My Profile</a>
+        </li>
+        <li>
+          <a href="/feed">Feed</a>
+        </li>
+        <li class="active">
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
+          <ul class="collapse list-unstyled category-item" id="homeSubmenu">
+            <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+              {{!-- <a class="dropdown-item" href="#" data-val="">Books</a>
+              <a class="dropdown-item" href="#" data-val="">Category 2</a>
+              <a class="dropdown-item" href="#" data-val="">Category 3</a>
+              <a class="dropdown-item" href="#" data-val="">Category 4</a> --}}
+            </div>
+
+            {{!--
+            <li>
+              <a href="#">Category 2</a>
+            </li>
+            <li>
+              <a href="#">Category 3</a>
+            </li> --}}
+          </ul>
+        </li>
+
+        <li>
+          <a href="/wishlist">Wishlist</a>
+        </li>
+        {{!--
+        <li>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li>
+              <a href="#">Page 1</a>
+            </li>
+            <li>
+              <a href="#">Page 2</a>
+            </li>
+            <li>
+              <a href="#">Page 3</a>
+            </li>
+          </ul>
+        </li> --}}
+        <li>
+          <a href="#">Messages</a>
+        </li>
+        <li>
+          <a href="/listings">My Listings</a>
+        </li>
+      </ul>
+
+      {{!--
+      <ul class="list-unstyled CTAs">
+        <li>
+          <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+        </li>
+        <li>
+          <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+        </li>
+      </ul> --}}
+    </nav>
+    <div id="content">
+      {{{body}}}
+    </div>
+  </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  
+
 </body>
 
 </html>

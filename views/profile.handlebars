@@ -1,46 +1,133 @@
-   
+<!-- Page Content  -->
 
-    <div class="container" style="margin-top:20px">
-        <div class="row profile-container">
-            <div class="col-12">
-                <div class="card">
-                    <!-- <div class="card-header">
-                        <strong>User Profile</strong>
 
-                    </div> -->
-                    <div class="card-body">
-                            <div class="profile__avatar">
-                                    <img src={{userData.photoUrl}} alt="profile picture">
-                                  </div>
-                      
-                     <strong>Name: </strong> <span>{{userData.firstName}} {{userData.lastName}}</span><br>
-                     <strong>Email: </strong> <span>{{userData.email}}</span><br>
-                     <strong>Number: </strong> <span>{{userData.phoneNumber}}</span><br>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row" style="text-align: center">
-                            <div class="col-4" >
-                                <strong> Active Listings: </strong> <span>20</span>
-                            </div>
-                            <div class="col-4">
-                                <strong>Amount Sold: </strong> <span> 5</span>
-                            </div>
+{{!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+      
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+        <form class="form-inline my-2 my-lg-0" id="search-products">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+    </div>
+</nav> --}}
+<div class="container" style="margin-top:20px">
+    <div class="row profile-text">
+        <div class="col-6">
+            <div class="card rounded-edge">
+                {{!-- <img src={{userData.photoUrl}} alt="profile picture" class="profile-pic"> --}}
+                <img src="{{userData.photoUrl}}" alt=""
+                    class="profile-pic">
+                <div class="card-body profile-card">
+                    <h3><strong>My Profile</strong></h3>
+
+                    <p>
+                        <span>{{userData.firstName}} {{userData.lastName}}</span>
+                        <hr class="hr-form">
+                    </p>
+                    <p> <span>{{userData.email}}</span>
+                        <hr class="hr-form">
+                    </p>
+                    <p> <span>{{userData.phoneNumber}} 123-456-7890</span>
+                        <hr class="hr-form"> <br></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>SMS notification </p>
                         </div>
+                        <div class="col-md-6">
+                            <div class="material-switch pull-right">
+                                <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox" />
+                                <label for="someSwitchOptionSuccess" class="label-success"></label>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <hr class="hr-form">
+                    <button type="button" class="btn btn-light">Edit</button>
+                    <button type="button" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card rounded-edge">
+                <div class="card-body profile-card">
+                    <div class="card-header">
+                        <h3> <strong>My Activity</strong> </h3>
+                        {{!--
+                        <p> <strong>My Activity</strong> </p> --}}
+                    </div>
+                    <p> <strong> Active Listings: </strong> <span>20</span></p>
+                    <p> <strong> Amount Sold: </strong> <span>2</span></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+{{!--
+<div class="container" style="margin-top:20px">
+    <div class="row profile-container">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>User Profile</strong>
+
+
+                    <li class="list-group-item">
+                        Bootstrap Switch Success
+                        <div class="material-switch pull-right">
+                            <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox" />
+                            <label for="someSwitchOptionSuccess" class="label-success"></label>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div> --}} {{!--
+<div class="row profile-container">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="profile__avatar">
+                    <img src={{userData.photoUrl}} alt="profile picture">
+                </div>
+
+                <strong>Name: </strong> <span>{{userData.firstName}} {{userData.lastName}}</span><br>
+                <strong>Email: </strong> <span>{{userData.email}}</span><br>
+                <strong>Number: </strong> <span>{{userData.phoneNumber}}</span><br>
+            </div>
+            <div class="card-footer">
+                <div class="row" style="text-align: center">
+                    <div class="col-4">
+                        <strong> Active Listings: </strong> <span>20</span>
+                    </div>
+                    <div class="col-4">
+                        <strong>Amount Sold: </strong> <span> 5</span>
                     </div>
                 </div>
             </div>
         </div>
-       
-
     </div>
+</div> --}}
 
 
 
 
-
-    </div>
-
-
-
-
-    </div>
+</div>
+</div>

@@ -12,7 +12,7 @@ module.exports = function(app) {
   
     db.User.findOne({
       where: {
-        id: req.body.userId
+        id: req.cookies.userId
       }
     })
       .then(function(dbPost) {
@@ -26,7 +26,7 @@ module.exports = function(app) {
           wishList: JSON.stringify(wishList)
         },{
           where: {
-            id: req.body.userId
+            id: req.cookies.userId
           }
         }).then(function(results){
           console.log(results);
@@ -44,7 +44,9 @@ module.exports = function(app) {
         firstName: req.body.first_name,
         lastName: req.body.last_name,
         email: req.body.email,
-        photoUrl: req.body['picture[data][url]']
+        photoUrl: req.body['picture[data][url]'],
+        wishList: "[]",
+        purchaseList: "[]"
       }}).spread((user,created) => {
         console.log(user.get({
           plain:true
@@ -70,14 +72,15 @@ module.exports = function(app) {
   })
 
   app.post("/post", function (req, res) {
-    console.log(req.body);
     db.Product.create({
       name: req.body.productName,
       description: req.body.description,
       price: req.body.price,
       quantity: req.body.quantity,
       CategoryId: req.body.categoryId,
-      UserId: 2
+      UserId: req.cookies.userId
+    }).then(function(response) {
+      res.json(true)
     })
   })
   
