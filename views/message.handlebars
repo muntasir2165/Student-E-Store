@@ -3,8 +3,8 @@
     <div class="container text-center" style="margin-top:20px">
 
         <div class="row">
-            <div class="col-md-8 offset-md-2 offset-md-right-2">
-                {{product.name}}
+            <div class="col-md-6 offset-md-2 offset-md-right-2">
+               <h3>{{product.name}}</h3> 
             </div>
         </div>
 
@@ -12,7 +12,7 @@
 
             <div class="col-md-6" id="user-messages">
                  {{#each messageFromUser}}
-                <div class="card">
+                <div class="card product">
                    
                     <div class="card-body">
                         <p>{{messageText}}</p>
@@ -25,10 +25,14 @@
 
             <div class="col-md-6" id="other-user-messages">
                 {{#each dbMessageFromOtherUser}}
-                    <div>
+                     <div class="card product">
+                   
+                    <div class="card-body">
                         <p>{{messageText}}</p>
                         <p>{{createdAt}}</p>
                     </div>
+               
+                </div>
                 {{/each}}
             </div>
 
@@ -52,16 +56,17 @@
                 {{#each bothUser}}
                 <div class="card">
                     <div class="card-body">
-                          <p>{{messageText}}</p>
-                        <p>{{createdAt}}</p>
+                          <p>{{bothUser.messageText}}</p>
+                        <p>{{bothUser.createdAt}}</p>
                     </div>
                 </div>
+                {{/each}}
 
             </div>
         </div>
     </div>
 
-    <div class="container">
+    {{!-- <div class="container">
         <div class="row">
             <div class="col-6">
                 <div class="message-box">
@@ -154,7 +159,7 @@
                     </div>
 
                 </div>
-                <!-- From a usability perspective - this needs to show from the most recent post  -->
+              
                 <div class="message-box">
                     <img src="https://cdn-images-1.medium.com/max/1200/1*MccriYX-ciBniUzRKAUsAw.png" alt="Avatar" style="width:10%;">
                     <p>Hello. How are you, is the product still available?</p>
@@ -181,7 +186,7 @@
             </div>
 
         </div>
-    </div>
+    </div> --}}
 
     <script>
             // // Make sure we wait to attach our handlers until the DOM is fully loaded.

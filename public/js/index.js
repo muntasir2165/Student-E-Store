@@ -1,24 +1,24 @@
-$(document).ready(function() {
-    searchProduct();
+$(document).ready(function () {
+  searchProduct();
 });
 
 function searchProduct() {
-    $("#search-product-submit-button").on("click", function(event) {
-        event.preventDefault();
-        if ($("#search-product").val()) {
-            var searchProduct = $("#search-product").val().trim(); 
-            // searchProductInDb(searchProduct);
-            window.location.replace("/searchProduct/1/" + searchProduct);
-        } else {
-            alert("ERROR: Please type in a message before submitting the form.");
-        }
-    });
+  $("#search-product-submit-button").on("click", function (event) {
+    event.preventDefault();
+    if ($("#search-product").val()) {
+      var searchProduct = $("#search-product").val().trim();
+      // searchProductInDb(searchProduct);
+      window.location.replace("/searchProduct/1/" + searchProduct);
+    } else {
+      alert("ERROR: Please type in a message before submitting the form.");
+    }
+  });
 }
 
 //This method is called once the facebbok login dialog is completed
 function handleLogin() {
   var FBID = "";
-  FB.api("/me?fields=id,first_name,last_name,picture{url},email", function (
+  FB.api("/me?fields=id,first_name,last_name,picture.width(640),email", function (
     response
   ) {
     //Once response comes in, the data is then sent to the server for user creation if user doesn't exist.
@@ -26,7 +26,7 @@ function handleLogin() {
       url: "/login",
       method: "POST",
       data: response
-    }).then(function(response) {
+    }).then(function (response) {
       if (response.auth === true) {
         console.log("login successful");
         document.cookie = `userId=${response.userId}`; //Here we store the user's id from the database
@@ -39,7 +39,7 @@ function handleLogin() {
 }
 
 function fetchFeedPage() {
-  FB.getLoginStatus(function(response) {
+  FB.getLoginStatus(function (response) {
     if (response.status === 'connected') {
       var token = response.authResponse.accessToken;
       document.cookie = `FBToken=${token}`; //Here we store the FB access token as a cookie
@@ -49,7 +49,7 @@ function fetchFeedPage() {
 }
 
 function getFBID() {
-  FB.getLoginStatus(function(response) {return(response.authResponse.userID)})
+  FB.getLoginStatus(function (response) { return (response.authResponse.userID) })
 }
 
 // START OF MY JS FOR FRONT END ---ALL THE ABOVE IS JUST EXAMPLES
@@ -57,14 +57,14 @@ function getFBID() {
 $(function () {
   // PAGE ELEMENTS
   var $newPost = $(".new-post");
-  
-  var userFbidId 
+
+  var userFbidId
 
 
   // FUNCTION TO POST NEW ITEM 
   var postItem = function (event) {
     event.preventDefault();
-  
+
     var newProduct = {
       productName: $("#product-name").val().trim(),
       categoryId: $("#category").val(),
@@ -79,7 +79,7 @@ $(function () {
       data: newProduct
     }).then(function () {
       console.log("created")
-      location.reload();
+      window.location.reload();
     })
 
   };
@@ -123,7 +123,7 @@ $(function () {
     console.log($(this).attr("data-val"))
     var categoryId = $(this).attr("data-val")
 
-    $.get("/feed/"+categoryId)
+    $.get("/feed/" + categoryId)
   })
 
   // $(".feed-page").on("click", function(event){
@@ -136,16 +136,35 @@ $(function () {
 
   $newPost.on("submit", postItem);
 
-  //wishlist button on click event
+  //Wishlist Button
+//   function cookie(cname){
+//     var name = cname + "=";
+//     var decodedCookie = decodeURIComponent(document.cookie);
+//     var ca = decodedCookie.split(';');
+//   }
+//   function getCookie(cname) {
+//     var name = cname + “=”;
+//     var decodedCookie = decodeURIComponent(document.cookie);
+//     var ca = decodedCookie.split(‘;’);
+//     for(var i = 0; i <ca.length; i++) {
+//         var c = ca[i];
+//         while (c.charAt(0) == ' ’) {
+//             c = c.substring(1);
+//         };
+//         if (c.indexOf(name) == 0) {
+//             return c.substring(name.length, c.length);
+//         };
+//     }
+//     return “”;
+//  }
 
   $(".wishlistButton").on("click", function (event) {
+  
+    // $(this).css({"background-image" : "linear-gradient(to right top, #0064fa, #009fff, #00c5e9, #00df87, #a8eb12)"});
 
-    // event.preventDefault();
-    // console.log("works");
     var buttonId = {
       productId: $(this).attr("data-id"),
-      userId: 2
-    }
+    };
 
 
     $.ajax({
@@ -153,26 +172,40 @@ $(function () {
       url: "/wishlist/",
       data: buttonId,
 
+    }).then(function (results) {
+      console.log("buttonId:" + results);
+      addRemoveToWishlist();
+
+    })
+
+    // nav 
+    $("#sidebar").mCustomScrollbar({
+      theme: "minimal"
     });
 
-  })
+    $('#sidebarCollapse').on('click', function () {
+      // open or close navbar
+      $('#sidebar').toggleClass('active');
+      // close dropdowns
+      $('.collapse.in').toggleClass('in');
+      // and also adjust aria-expanded attributes we use for the open/closed arrows
+      // in our CSS
+      $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
 
-// nav 
-$("#sidebar").mCustomScrollbar({
-  theme: "minimal"
+  });
 });
 
-$('#sidebarCollapse').on('click', function () {
- // open or close navbar
- $('#sidebar').toggleClass('active');
- // close dropdowns
- $('.collapse.in').toggleClass('in');
- // and also adjust aria-expanded attributes we use for the open/closed arrows
- // in our CSS
- $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-});
+function addRemoveToWishlist() {
+  $(document).on("click", ".wishlistButton", function () {
+    if ($(".wishlistButton").css("background-color") === "rgb(0, 123, 255)") {
+      $(".wishlistButton").css("background-color", "blue");
+    } else {
+      $(".wishlistButton").css("background-color", "lightseagreen");
+    }
+  });
+}
 
-});
 
 
 
