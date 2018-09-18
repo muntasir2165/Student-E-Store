@@ -72,7 +72,6 @@ module.exports = function(app) {
   })
 
   app.post("/post", function (req, res) {
-    console.log(req.body);
     db.Product.create({
       name: req.body.productName,
       description: req.body.description,
@@ -80,6 +79,8 @@ module.exports = function(app) {
       quantity: req.body.quantity,
       CategoryId: req.body.categoryId,
       UserId: req.cookies.userId
+    }).then(function(response) {
+      res.json(true)
     })
   })
   

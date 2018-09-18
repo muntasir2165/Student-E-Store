@@ -79,7 +79,7 @@ $(function () {
       data: newProduct
     }).then(function () {
       console.log("created")
-      window.location.reload();
+      window.location.replace("/feed")
     })
 
   };
