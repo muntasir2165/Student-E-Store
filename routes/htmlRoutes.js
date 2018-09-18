@@ -33,7 +33,7 @@ module.exports = function (app) {
             res.render("feed", {
               product: dbProduct,
               authToken: req.params.token,
-              category:dbCategory
+              category: dbCategory
             })
 
           });
@@ -53,10 +53,14 @@ module.exports = function (app) {
         CategoryId: req.params.categoryid
       }
     }).then(function (dbProduct) {
-      console.log(JSON.stringify(dbProduct))
-      res.render("category", {
-        product: dbProduct
-      })
+      db.Category.findAll({}).then(function (dbCategory) {
+        res.render("category", {
+          product: dbProduct,
+          authToken: req.params.token,
+          category: dbCategory
+        })
+
+      });
 
     })
 
@@ -106,6 +110,7 @@ module.exports = function (app) {
 
 
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
+    console.log(req.body)
     db.Message.findAll({
       where: {
         UserId: req.params.UserId,
