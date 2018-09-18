@@ -33,7 +33,7 @@ module.exports = function (app) {
             res.render("feed", {
               product: dbProduct,
               authToken: req.params.token,
-              category:dbCategory
+              category: dbCategory
             })
 
           });
@@ -49,22 +49,24 @@ module.exports = function (app) {
   app.get("/category/:categoryid", function (req, res) {
     auth(req.cookies.FBToken, function (response) {
       if (response.is_valid === true) {
-      // console.log(req.params.categoryid)
+        // console.log(req.params.categoryid)
         db.Product.findAll({
           where: {
             CategoryId: req.params.categoryid
           }
         }).then(function (dbProduct) {
-          console.log(JSON.stringify(dbProduct))
-          res.render("category", {
-            product: dbProduct
-          })
-
+          db.Category.findAll({}).then(function (dbCategory) {
+            res.render("category", {
+              product: dbProduct,
+              authToken: req.params.token,
+              category: dbCategory
+            })
+          });
         })
       } else {
-        res.render("index");
+          res.render("index");
       }
-    })
+    }) 
   });
 
   //HTML Wishlist Route
@@ -117,63 +119,72 @@ module.exports = function (app) {
     })
   });
 
-
-
-
-
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
-    db.Message.findAll({
-      where: {
-        UserId: req.params.UserId,
-        otherUserId: req.params.otherUserId,
-        productId: req.params.productId
-      },
-      order: [
-        ["createdAt", "ASC"]
-      ]
-    }
-    ).then(function (dbMessageFromUser) {
-      db.Message.findAll({
-        where: {
-          otherUserId: req.params.UserId,
-          UserId: req.params.otherUserId,
-          productId: req.params.productId
-        },
-        order: [
-          ["createdAt", "ASC"]
-        ]
-      }
-      ).then(function (dbMessageFromOtherUser) {
-        db.Product.findOne({
+    auth(req.cookies.FBToken, function (response) {
+      if (response.is_valid === true) {
+        console.log(req.body)
+        db.Message.findAll({
           where: {
-            id: req.params.productId
+            UserId: req.params.UserId,
+            otherUserId: req.params.otherUserId,
+            productId: req.params.productId
+          },
+          order: [
+            ["createdAt", "ASC"]
+          ]
+        }
+        ).then(function (dbMessageFromUser) {
+          db.Message.findAll({
+            where: {
+              otherUserId: req.params.UserId,
+              UserId: req.params.otherUserId,
+              productId: req.params.productId
+            },
+            order: [
+              ["createdAt", "ASC"]
+            ]
           }
-        }).then(function (dbProduct) {
-          res.render("message", {
-            messageFromUser: dbMessageFromUser,
-            dbMessageFromOtherUser: dbMessageFromOtherUser,
-            product: dbProduct,
-            totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length
+          ).then(function (dbMessageFromOtherUser) {
+            db.Product.findOne({
+              where: {
+                id: req.params.productId
+              }
+            }).then(function (dbProduct) {
+              res.render("message", {
+                messageFromUser: dbMessageFromUser,
+                dbMessageFromOtherUser: dbMessageFromOtherUser,
+                product: dbProduct,
+                totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length
+              });
+            });
           });
         });
-      });
-    });
+      } else {
+        res.render("index");
+      }
+    })
   });
 
   app.get("/searchProduct/:userId/:searchProduct", function (req, res) {
-    var searchProduct = req.params.searchProduct;
-    db.Product.findAll({
-      where: {
-        name: {
-          $like: "%" + searchProduct + "%"
-        }
+    auth(req.cookies.FBToken, function (response) {
+      if (response.is_valid === true) {
+        var searchProduct = req.params.searchProduct;
+        db.Product.findAll({
+          where: {
+            name: {
+              $like: "%" + searchProduct + "%"
+            }
+          }
+        }).then(function (dbProduct) {
+          console.log(JSON.stringify(dbProduct));
+          res.render("searchProduct", {
+            product: dbProduct
+          });
+        });
+      } else {
+        res.render("index");
       }
-    }).then(function (dbProduct) {
-      console.log(JSON.stringify(dbProduct));
-      res.render("searchProduct", {
-        product: dbProduct
-      });
-    });
+    })
   });
 
 
