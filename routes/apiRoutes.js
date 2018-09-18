@@ -92,6 +92,7 @@ module.exports = function(app) {
       // res.json({ id: result.insertId });
     });
   });
+ 
 
   app.post("/message/new", function (req, res) {
     db.Message.findAll({

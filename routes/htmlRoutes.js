@@ -58,17 +58,13 @@ module.exports = function(app) {
  
   });
 
-    // var category = db.category.findAll({}).then(function(dbCategory){
-    //  return dbCategory
-    // });
-
-  //HTML route for wishlist.handlebars page
+  //HTML Wishlist Route
   app.get("/wishlist/:userId", function (req, res) {
     var userId = req.params.userId;
     db.User.findOne({
-      where: {id: userId}
-      }
-    ).then(function(dbUser) {
+      where: { id: userId }
+    }
+    ).then(function (dbUser) {
       var wishList = JSON.parse(dbUser.wishList);
       db.Product.findAll({
         where: {
@@ -84,6 +80,25 @@ module.exports = function(app) {
         });
     });
   });
+
+  //HTML My Listings Route
+  app.get("/listings/:userId", function (req, res) {
+    db.Product.findAll({
+      where: { userId: req.params.userId },
+      include:[db.Category]
+    }).then(function (dbListings) {
+      // console.log(dbListings);
+      console.log(JSON.stringify(dbListings));
+      res.render("listings", {
+        listings: dbListings
+        
+      });
+    });
+  });
+
+
+ 
+
 
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
     db.Message.findAll({
@@ -140,21 +155,20 @@ module.exports = function(app) {
     });
   });
 
-  // var category = db.category.findAll({}).then(function(dbCategory){
-  //  return dbCategory
-  // });
 
-  // renderPage(products);
-  // renderPage(dbProduct)
 
-  // res.render("feed", {
-  //   product:productData
-  // });
+
+
+    // var category = db.category.findAll({}).then(function(dbCategory){
+    //  return dbCategory
+    // });
+
+    // renderPage(products);
+    // renderPage(dbProduct)
 
     // res.render("feed", {
     //   product:productData
     // });
-  
 
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {
