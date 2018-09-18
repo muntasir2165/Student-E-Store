@@ -1,17 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
 
-    <div class="container text-center" style="margin-top:20px">
-
-        <div class="row">
-            <div class="col-md-8 offset-md-2 offset-md-right-2">
-                {{#each product}}
-                <div>
-                    {{name}}<br>
-                    {{price}}<br>
-                    {{quantity}}<br>
-                </div>
-                {{/each}}
-            </div>
-        </div>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+        <form class="form-inline my-2 my-lg-0" id="search-product-form">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search-product">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search-product-submit-button">Search</button>
+        </form>
 
 
     </div>
+</nav>
+
+
+<div class="container text-center" style="margin-top:20px">
+
+    <div class="row">
+        <div class="col-md-8">
+            {{#each product}}
+            <div class="card product">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="https://via.placeholder.com/140x100" alt="">
+                        </div>
+                        <div class="col-6">
+                            <strong> {{this.name}} </strong> <br> {{this.description}}
+                        </div>
+                        <div class="col-3 priceQuantity">
+                            Price: ${{this.price}} <br> Quantity: {{this.quantity}}
+                            <br>
+
+                            <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i
+                                    class="far fa-star feedStar"></i>
+                            </button><br>
+
+                            <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i
+                                    class="far fa-comment-alt"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        {{/each}}
+    </div>
+</div>
+
+
+</div>

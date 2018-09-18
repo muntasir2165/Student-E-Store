@@ -2,18 +2,18 @@ var db = require("../models");
 var auth = require("../utility/facebook");
 
 
-module.exports = function(app) {
+module.exports = function (app) {
   // Load index page
   app.get("/", function (req, res) {
     res.render("index");
   });
 
-  app.get("/profile", function(req, res) {
-    auth(req.cookies.FBToken, function(response) {
+  app.get("/profile", function (req, res) {
+    auth(req.cookies.FBToken, function (response) {
       if (response.is_valid === true) {
         db.User.findOne({
-          where: {userId: response.user_id}
-        }).then(function(userData) {
+          where: { userId: response.user_id }
+        }).then(function (userData) {
           res.render("profile", {
             userData: userData
           });
@@ -24,13 +24,18 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/feed", function(req, res) {
-    auth(req.cookies.FBToken, function(response) {
+  app.get("/feed", function (req, res) {
+    auth(req.cookies.FBToken, function (response) {
       if (response.is_valid === true) {
-        db.Product.findAll({}).then(function(dbProduct) {
-          res.render("feed", {
-            product: dbProduct,
-            authToken: req.params.token
+        db.Product.findAll({}).then(function (dbProduct) {
+          db.Category.findAll({}).then(function (dbCategory) {
+            console.log(JSON.stringify(dbCategory))
+            res.render("feed", {
+              product: dbProduct,
+              authToken: req.params.token,
+              category:dbCategory
+            })
+
           });
         });
       } else {
@@ -41,26 +46,26 @@ module.exports = function(app) {
   });
 
 
-  app.get("/category/:categoryid", function(req,res){
+  app.get("/category/:categoryid", function (req, res) {
     // console.log(req.params.categoryid)
     db.Product.findAll({
-      where:{
-        CategoryId:req.params.categoryid
+      where: {
+        CategoryId: req.params.categoryid
       }
-    }).then(function(dbProduct){
+    }).then(function (dbProduct) {
       console.log(JSON.stringify(dbProduct))
-     res.render("category", {
-       product: dbProduct
-     })
-     
+      res.render("category", {
+        product: dbProduct
+      })
+
     })
 
- 
+
   });
 
   //HTML Wishlist Route
-  app.get("/wishlist/:userId", function (req, res) {
-    var userId = req.params.userId;
+  app.get("/wishlist", function (req, res) {
+    var userId = req.cookies.userId;
     db.User.findOne({
       where: { id: userId }
     }
@@ -73,31 +78,31 @@ module.exports = function(app) {
           }
         }
       }).then(function (dbWishlist) {
-          console.log(JSON.stringify(dbWishlist));
-          res.render("wishlist", {
-            wishlist: dbWishlist
-          });
+        console.log(JSON.stringify(dbWishlist));
+        res.render("wishlist", {
+          wishlist: dbWishlist
         });
+      });
     });
   });
 
   //HTML My Listings Route
-  app.get("/listings/:userId", function (req, res) {
+  app.get("/listings", function (req, res) {
     db.Product.findAll({
-      where: { userId: req.params.userId },
-      include:[db.Category]
+      where: { userId: req.cookies.userId },
+      include: [db.Category]
     }).then(function (dbListings) {
       // console.log(dbListings);
       console.log(JSON.stringify(dbListings));
       res.render("listings", {
         listings: dbListings
-        
+
       });
     });
   });
 
 
- 
+
 
 
   app.get("/message/:UserId/:otherUserId/:productId", function (req, res) {
@@ -106,36 +111,36 @@ module.exports = function(app) {
         UserId: req.params.UserId,
         otherUserId: req.params.otherUserId,
         productId: req.params.productId
+      },
+      order: [
+        ["createdAt", "ASC"]
+      ]
+    }
+    ).then(function (dbMessageFromUser) {
+      db.Message.findAll({
+        where: {
+          otherUserId: req.params.UserId,
+          UserId: req.params.otherUserId,
+          productId: req.params.productId
         },
         order: [
-            ["createdAt", "ASC"]
+          ["createdAt", "ASC"]
         ]
       }
-    ).then(function(dbMessageFromUser) {
-        db.Message.findAll({
+      ).then(function (dbMessageFromOtherUser) {
+        db.Product.findOne({
           where: {
-            otherUserId: req.params.UserId,
-            UserId: req.params.otherUserId,
-            productId: req.params.productId
-            },
-            order: [
-                ["createdAt", "ASC"]
-            ]
+            id: req.params.productId
           }
-        ).then(function(dbMessageFromOtherUser) {
-          db.Product.findOne({
-            where: {
-              id: req.params.productId
-            }
-          }).then(function (dbProduct) {
-              res.render("message", {
-                messageFromUser: dbMessageFromUser,
-                dbMessageFromOtherUser: dbMessageFromOtherUser,
-                product: dbProduct,
-                totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length
-              });
-            });
+        }).then(function (dbProduct) {
+          res.render("message", {
+            messageFromUser: dbMessageFromUser,
+            dbMessageFromOtherUser: dbMessageFromOtherUser,
+            product: dbProduct,
+            totalNumberOfMessages: dbMessageFromUser.length + dbMessageFromOtherUser.length
+          });
         });
+      });
     });
   });
 
@@ -143,11 +148,11 @@ module.exports = function(app) {
     var searchProduct = req.params.searchProduct;
     db.Product.findAll({
       where: {
-          name: {
-              $like: "%" + searchProduct + "%"
-          }
+        name: {
+          $like: "%" + searchProduct + "%"
+        }
       }
-    }).then(function(dbProduct) {
+    }).then(function (dbProduct) {
       console.log(JSON.stringify(dbProduct));
       res.render("searchProduct", {
         product: dbProduct
@@ -159,19 +164,19 @@ module.exports = function(app) {
 
 
 
-    // var category = db.category.findAll({}).then(function(dbCategory){
-    //  return dbCategory
-    // });
+  // var category = db.category.findAll({}).then(function(dbCategory){
+  //  return dbCategory
+  // });
 
-    // renderPage(products);
-    // renderPage(dbProduct)
+  // renderPage(products);
+  // renderPage(dbProduct)
 
-    // res.render("feed", {
-    //   product:productData
-    // });
+  // res.render("feed", {
+  //   product:productData
+  // });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     res.render("404");
   });
 };
