@@ -1,47 +1,50 @@
- <div class="wrapper">
-    <!-- Sidebar  -->
-    <nav id="sidebar">
-      <div class="sidebar-header">
-        <a class="navbar-brand feed-page" href="/feed">
-            <h3>Student-E-Store</h3>
-        </a>
-      </div>
-      {{!-- feed, category, wishlist, messages, my listings, profile--}}
-      <ul class="list-unstyled components">
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <a class="navbar-brand feed-page" href="/feed">
+        <h3>Student-E-Store</h3>
+      </a>
+    </div>
+    {{!-- feed, category, wishlist, messages, my listings, profile--}}
+    <ul class="list-unstyled components">
 
-        <li>
-          <a href="/profile">My Profile</a>
-        </li>
+      <li>
+        <a href="/profile">My Profile</a>
+      </li>
 
-        <li class="active">
-          <a href="/feed">Feed</a>
-        </li>
+      <li>
+        <a href="/feed">Feed</a>
+      </li>
 
-        <li >
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
-          <ul class="collapse list-unstyled category-item" id="homeSubmenu">
-            <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
-            </div>
-          </ul>
-        </li>
+      <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
+        <ul class="collapse list-unstyled category-item" id="homeSubmenu">
+          <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+          </div>
+        </ul>
+      </li>
 
-        <li>
-          <a href="/wishlist">Wishlist</a>
-        </li>
-      
-      
-        <li>
-          <a href="/listings">My Listings</a>
-        </li>
-      </ul>
+      <li>
+        <a href="/wishlist">Wishlist</a>
+      </li>
 
-    </nav>
-    <div id="content">
-      {{!-- Put in main content here  --}}
+      <li>
+        <a href="/listings">My Listings</a>
+      </li>
+
+      <li>
+        <a href="/newProduct">Sell a New Product</a>
+      </li>
+    </ul>
+
+  </nav>
+
+  <div id="content">
     
       <div class="container">
           <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-12">
                   <nav class="navbar navbar-expand-lg  navbar-light bg-dark">
                       <div class="container-fluid">
                           <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -56,45 +59,38 @@
               </div>
           </div>
       </div>
-
-
-
-      <div class="container text-center" style="margin-top:20px">
-
-        <h2>Items for the category {{category.name}}</h2>
-        
+      
+    <div class="container text-center" style="margin-top:20px">
+      <div class="row">
+        <div class="col-md-12">
+          {{#each product}}
           <div class="row">
-              <div class="col-md-8">
-                  {{#each product}}
-                  <div class="card product">
-                      <div class="card-body">
-                          <div class="row">
-                              <div class="col-3">
-                                  <img src="https://via.placeholder.com/140x100" alt="Placeholder Image">
-                              </div>
-                              <div class="col-6">
-                                  <strong> {{this.name}} </strong>
-                                  <br>
-                                  {{this.description}}
-                              </div>
-                              <div class="col-3 priceQuantity">
-                                  Price: ${{this.price}}
-                                  <br>
-                                  Quantity: {{this.quantity}}
-                                  <br>
-                                  <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-star feedStar"></i>
-                                  </button>
-                                  <br>
-                                  <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-comment-alt"></i>
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              {{/each}}
+            <div class="col-3">
+              <img src="{{this.photoUrl}}">
+            </div>
+            <div class="col-6">
+              <strong> {{this.name}} </strong>
+              <br>
+              {{this.description}}
+            </div>
+            <div class="col-3 priceQuantity">
+              Price: ${{this.price}}
+              <br>
+              Quantity: {{this.quantity}}
+              <br>
+              <button type="submit" class="btn btn-primary wishlistButton" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-star feedStar"></i>
+              </button>
+              <br>
+              <button type="submit" class="btn btn-primary message-seller" data-seller="{{this.UserId}}" data-id="{{this.id}}"><i class="far fa-comment-alt"></i>
+              </button>
+            </div>
           </div>
+          <hr>
+          {{/each}}
+        </div>
       </div>
-
     </div>
+
+  </div>
+
 </div>
