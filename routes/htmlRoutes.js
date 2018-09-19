@@ -1,6 +1,6 @@
 var db = require("../models");
 var auth = require("../utility/facebook");
-
+var path = require("path");
 
 module.exports = function (app) {
   // Load index page
@@ -187,20 +187,6 @@ module.exports = function (app) {
     })
   });
 
-
-
-
-
-  // var category = db.category.findAll({}).then(function(dbCategory){
-  //  return dbCategory
-  // });
-
-  // renderPage(products);
-  // renderPage(dbProduct)
-
-  // res.render("feed", {
-  //   product:productData
-  // });
 
   // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {
